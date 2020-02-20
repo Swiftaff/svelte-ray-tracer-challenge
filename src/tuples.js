@@ -24,6 +24,16 @@ function tuple_add(a, b) {
     }
 }
 
+function tuple_subtract(a, b) {
+    let tuple = { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z, w: a.w - b.w };
+    if (tuple.w === -1) {
+        console.error("tuple_add: can't subtract a point from a vector");
+        return false;
+    } else {
+        return tuple;
+    }
+}
+
 function tuple(x, y, z, w) {
     return { x, y, z, w };
 }
@@ -43,5 +53,6 @@ module.exports = {
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
-    tuple_add
+    tuple_add,
+    tuple_subtract
 };
