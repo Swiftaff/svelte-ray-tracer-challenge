@@ -27,7 +27,19 @@ function tuple_add(a, b) {
 function tuple_subtract(a, b) {
     let tuple = { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z, w: a.w - b.w };
     if (tuple.w === -1) {
-        console.error("tuple_add: can't subtract a point from a vector");
+        console.error("tuple_subtract: can't subtract a point from a vector");
+        return false;
+    } else {
+        return tuple;
+    }
+}
+
+function vector_negate(a) {
+    let tuple = { x: -a.x, y: -a.y, z: -a.z, w: a.w };
+    if (tuple.w === 1) {
+        console.error(
+            "tuple_negate: can't negate a point (is this correct - example on page 7 'Negating a tuple' shows the 4th value not being 0 or 1??)"
+        );
         return false;
     } else {
         return tuple;
@@ -54,5 +66,6 @@ module.exports = {
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
     tuple_add,
-    tuple_subtract
+    tuple_subtract,
+    vector_negate
 };

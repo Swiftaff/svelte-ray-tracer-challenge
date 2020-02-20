@@ -6,7 +6,8 @@ const {
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
     tuple_add,
-    tuple_subtract
+    tuple_subtract,
+    vector_negate
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -95,4 +96,14 @@ test("subtract two tuples: vector - vector = vector", function() {
 
 test("subtract two tuples: vector - point = false (and console error)", function() {
     expect(tuple_subtract(vector(3, 2, 1), point(5, 6, 7))).toBe(false);
+});
+
+//vector_negate
+
+test("negate a vector = -vector", function() {
+    expect(getBool_tuplesAreEqual(vector_negate(vector(1, -2, 3)), vector(-1, 2, -3))).toBe(true);
+});
+
+test("negate a vector = false (and console error)", function() {
+    expect(vector_negate(point(1, -2, 3))).toBe(false);
 });
