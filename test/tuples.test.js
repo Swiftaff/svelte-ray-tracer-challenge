@@ -11,7 +11,8 @@ const {
     vector_negate,
     tuple_multiply,
     tuple_divide,
-    vector_magnitude
+    vector_magnitude,
+    vector_normalize
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -160,4 +161,23 @@ test("Computing the magnitude ofvector(1, 2, 3)", function() {
 
 test("Computing the magnitude ofvector(-1, -2, -3)", function() {
     expect(getBool_numbersAreEqual(vector_magnitude(vector(-1, -2, -3)), Math.sqrt(14))).toBe(true);
+});
+
+//vector_normalize
+
+test("vector_normalize(4, 0, 0) gives vector(1, 0, 0)", function() {
+    expect(getBool_tuplesAreEqual(vector_normalize(vector(4, 0, 0)), vector(1, 0, 0))).toBe(true);
+});
+
+test("vector_normalize(1,2,3) gives vector(1/√14, 2/√14, 3/√14)", function() {
+    expect(getBool_tuplesAreEqual(vector_normalize(vector(1, 2, 3)), vector(0.26726, 0.53452, 0.80178))).toBe(true);
+});
+
+test("The magnitude of a normalized vector gives 1", function() {
+    let norm = vector_normalize(vector(1, 2, 3));
+    expect(getBool_numbersAreEqual(vector_magnitude(norm), 1)).toBe(true);
+});
+
+test("vector_normalize a point = false (and console error)", function() {
+    expect(vector_normalize(point(1, -2, 3))).toBe(false);
 });

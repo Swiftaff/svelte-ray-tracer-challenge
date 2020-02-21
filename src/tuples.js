@@ -1,5 +1,17 @@
 const EPSILON = 0.00001;
 
+function tuple(x, y, z, w) {
+    return { x, y, z, w };
+}
+
+function point(x, y, z) {
+    return { x, y, z, w: 1 };
+}
+
+function vector(x, y, z) {
+    return { x, y, z, w: 0 };
+}
+
 function getBool_tupleIsPoint(tuple) {
     return tuple.w === 1;
 }
@@ -65,16 +77,15 @@ function vector_magnitude(a) {
     return Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
-function tuple(x, y, z, w) {
-    return { x, y, z, w };
-}
-
-function point(x, y, z) {
-    return { x, y, z, w: 1 };
-}
-
-function vector(x, y, z) {
-    return { x, y, z, w: 0 };
+function vector_normalize(a) {
+    let m = vector_magnitude(a);
+    let tuple = { x: a.x / m, y: a.y / m, z: a.z / m, w: a.w };
+    if (tuple.w === 1) {
+        console.warn("vector_normalize: can't normalize a point");
+        return false;
+    } else {
+        return tuple;
+    }
 }
 
 module.exports = {
@@ -90,5 +101,6 @@ module.exports = {
     vector_negate,
     tuple_multiply,
     tuple_divide,
-    vector_magnitude
+    vector_magnitude,
+    vector_normalize
 };
