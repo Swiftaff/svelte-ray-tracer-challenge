@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "fireCanon": "node src/fireCanon.js",
     "tuples": "node src/tuples.js",
     "build": "rollup -c",
     "dev": "rollup -c -w",

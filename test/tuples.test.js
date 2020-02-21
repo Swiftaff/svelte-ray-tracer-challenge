@@ -2,9 +2,14 @@ const {
     tuple,
     point,
     vector,
+    projectile,
+    environment,
+    tick,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
+    getBool_isProjectile,
+    getBool_isEnvironment,
     getBool_numbersAreEqual,
     tuple_add,
     tuple_subtract,
@@ -45,6 +50,29 @@ test("point() creates tuples with w=1", function() {
 test("vector() creates tuples with w=0", function() {
     expect(getBool_tupleIsPoint(vector(4, -4, 3))).toBe(false);
     expect(getBool_tupleIsVector(vector(4, -4, 3))).toBe(true);
+});
+
+test("projectile(p,v) creates object with position and velocity", function() {
+    expect(getBool_isProjectile(projectile(point(1, 2, 3), vector(4, -4, 3)))).toBe(true);
+    expect(getBool_isProjectile(projectile(vector(4, -4, 3), point(1, 2, 3)))).toBe(false);
+    expect(getBool_isProjectile(projectile(vector(4, -4, 3), vector(1, 2, 3)))).toBe(false);
+    expect(getBool_isProjectile(projectile(point(4, -4, 3), point(1, 2, 3)))).toBe(false);
+});
+
+test("environment(v,v) creates object with gravity and wind", function() {
+    expect(getBool_isEnvironment(environment(vector(1, 2, 3), vector(4, -4, 3)))).toBe(true);
+    expect(getBool_isEnvironment(environment(vector(4, -4, 3), point(1, 2, 3)))).toBe(false);
+    expect(getBool_isEnvironment(environment(point(4, -4, 3), vector(1, 2, 3)))).toBe(false);
+    expect(getBool_isEnvironment(environment(point(4, -4, 3), point(1, 2, 3)))).toBe(false);
+});
+
+test("tick(environment,projectile) creates correct projectile", function() {
+    let env = environment(vector(0, -1, 0), vector(1, 0, 0));
+    let proj = projectile(point(0, 0, 0), vector(1, 2, 3));
+    let newProjectile = tick(env, proj);
+    expect(getBool_isProjectile(newProjectile)).toBe(true);
+    expect(getBool_tuplesAreEqual(newProjectile.position, point(1, 2, 3))).toBe(true);
+    expect(getBool_tuplesAreEqual(newProjectile.velocity, vector(2, 1, 3))).toBe(true);
 });
 
 //getBool_tuplesAreEqual

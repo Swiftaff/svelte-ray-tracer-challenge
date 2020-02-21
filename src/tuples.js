@@ -12,6 +12,21 @@ function vector(x, y, z) {
     return { x, y, z, w: 0 };
 }
 
+function projectile(position, velocity) {
+    return { position, velocity };
+}
+
+function environment(gravity, wind) {
+    return { gravity, wind };
+}
+
+function tick(env, proj) {
+    let position = tuple_add(proj.position, proj.velocity);
+    let envVector = tuple_add(env.gravity, env.wind);
+    let velocity = tuple_add(proj.velocity, envVector);
+    return projectile(position, velocity);
+}
+
 function getBool_tupleIsPoint(tuple) {
     return tuple.w === 1;
 }
@@ -31,6 +46,14 @@ function getBool_tuplesAreEqual(a, b) {
 
 function getBool_numbersAreEqual(a, b) {
     return Math.abs(a - b) < EPSILON;
+}
+
+function getBool_isProjectile(proj) {
+    return getBool_tupleIsPoint(proj.position) && getBool_tupleIsVector(proj.velocity);
+}
+
+function getBool_isEnvironment(env) {
+    return getBool_tupleIsVector(env.gravity) && getBool_tupleIsVector(env.wind);
 }
 
 function tuple_add(a, b) {
@@ -110,9 +133,14 @@ module.exports = {
     tuple,
     point,
     vector,
+    projectile,
+    environment,
+    tick,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
+    getBool_isProjectile,
+    getBool_isEnvironment,
     getBool_numbersAreEqual,
     tuple_add,
     tuple_subtract,
