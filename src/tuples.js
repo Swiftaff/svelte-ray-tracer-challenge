@@ -79,6 +79,14 @@ function getBool_tuplesAreEqual(a, b) {
     );
 }
 
+function getBool_colorsAreEqual(a, b) {
+    return (
+        getBool_numbersAreEqual(a.red, b.red) &&
+        getBool_numbersAreEqual(a.green, b.green) &&
+        getBool_numbersAreEqual(a.blue, b.blue)
+    );
+}
+
 function getBool_numbersAreEqual(a, b) {
     return Math.abs(a - b) < EPSILON;
 }
@@ -174,6 +182,23 @@ function vector_crossProduct(a, b) {
     }
 }
 
+function colors_add(a, b) {
+    return { red: a.red + b.red, green: a.green + b.green, blue: a.blue + b.blue };
+}
+
+function colors_subtract(a, b) {
+    return { red: a.red - b.red, green: a.green - b.green, blue: a.blue - b.blue };
+}
+
+function colors_multiply(a, b) {
+    //hadamard_product
+    return { red: a.red * b.red, green: a.green * b.green, blue: a.blue * b.blue };
+}
+
+function color_scalarMultiply(a, s) {
+    return { red: a.red * s, green: a.green * s, blue: a.blue * s };
+}
+
 module.exports = {
     tuple,
     point,
@@ -186,6 +211,7 @@ module.exports = {
     getBool_tupleIsVector,
     getBool_tupleIsColor,
     getBool_tuplesAreEqual,
+    getBool_colorsAreEqual,
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
@@ -197,5 +223,9 @@ module.exports = {
     vector_magnitude,
     vector_normalize,
     vector_dotProduct,
-    vector_crossProduct
+    vector_crossProduct,
+    colors_add,
+    colors_subtract,
+    colors_multiply,
+    color_scalarMultiply
 };

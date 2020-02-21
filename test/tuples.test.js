@@ -10,6 +10,7 @@ const {
     getBool_tupleIsVector,
     getBool_tupleIsColor,
     getBool_tuplesAreEqual,
+    getBool_colorsAreEqual,
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
@@ -21,7 +22,11 @@ const {
     vector_magnitude,
     vector_normalize,
     vector_dotProduct,
-    vector_crossProduct
+    vector_crossProduct,
+    colors_add,
+    colors_subtract,
+    colors_multiply,
+    color_scalarMultiply
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -264,4 +269,28 @@ test("Can't vector_crossProduct points = false (and console error)", function() 
 
 test("Can't vector_crossProduct points = false (and console error)", function() {
     expect(vector_crossProduct(vector(1, 2, 3), point(2, 3, 4))).toBe(false);
+});
+
+//colors
+
+test("adding two colors", function() {
+    expect(getBool_colorsAreEqual(colors_add(color(0.9, 0.6, 0.75), color(0.7, 0.1, 0.25)), color(1.6, 0.7, 1.0))).toBe(
+        true
+    );
+});
+
+test("subtracting two colors", function() {
+    expect(
+        getBool_colorsAreEqual(colors_subtract(color(0.9, 0.6, 0.75), color(0.7, 0.1, 0.25)), color(0.2, 0.5, 0.5))
+    ).toBe(true);
+});
+
+test("multiplying a color by a scalar", function() {
+    expect(getBool_colorsAreEqual(color_scalarMultiply(color(0.2, 0.3, 0.4), 2), color(0.4, 0.6, 0.8))).toBe(true);
+});
+
+test("multiplying a color by another color", function() {
+    expect(getBool_colorsAreEqual(colors_multiply(color(1, 0.2, 0.4), color(0.9, 1, 0.1)), color(0.9, 0.2, 0.04))).toBe(
+        true
+    );
 });
