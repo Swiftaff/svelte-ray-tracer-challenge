@@ -2,11 +2,13 @@ const {
     tuple,
     point,
     vector,
+    color,
     projectile,
     environment,
     tick,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
+    getBool_tupleIsColor,
     getBool_tuplesAreEqual,
     getBool_isProjectile,
     getBool_isEnvironment,
@@ -45,11 +47,23 @@ test("A tuple with w=0 is a point", function() {
 test("point() creates tuples with w=1", function() {
     expect(getBool_tupleIsPoint(point(4, -4, 3))).toBe(true);
     expect(getBool_tupleIsVector(point(4, -4, 3))).toBe(false);
+    expect(getBool_tupleIsColor(point(4, -4, 3))).toBe(false);
 });
 
 test("vector() creates tuples with w=0", function() {
     expect(getBool_tupleIsPoint(vector(4, -4, 3))).toBe(false);
     expect(getBool_tupleIsVector(vector(4, -4, 3))).toBe(true);
+    expect(getBool_tupleIsColor(vector(4, -4, 3))).toBe(false);
+});
+
+test("color() creates (red, green, blue) tuples", function() {
+    let a = color(-0.5, 0.4, 1.7);
+    expect(a.red).toBe(-0.5);
+    expect(a.green).toBe(0.4);
+    expect(a.blue).toBe(1.7);
+    expect(getBool_tupleIsPoint(color(4, -4, 3))).toBe(false);
+    expect(getBool_tupleIsVector(color(4, -4, 3))).toBe(false);
+    expect(getBool_tupleIsColor(color(4, -4, 3))).toBe(true);
 });
 
 test("projectile(p,v) creates object with position and velocity", function() {

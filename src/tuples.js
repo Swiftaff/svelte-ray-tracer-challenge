@@ -12,6 +12,10 @@ function vector(x, y, z) {
     return { x, y, z, w: 0 };
 }
 
+function color(red, green, blue) {
+    return { red, green, blue };
+}
+
 function projectile(position, velocity) {
     return { position, velocity };
 }
@@ -28,11 +32,42 @@ function tick(env, proj) {
 }
 
 function getBool_tupleIsPoint(tuple) {
-    return tuple.w === 1;
+    return (
+        tuple.hasOwnProperty("x") &&
+        tuple.hasOwnProperty("y") &&
+        tuple.hasOwnProperty("z") &&
+        tuple.hasOwnProperty("w") &&
+        typeof tuple.x == "number" &&
+        typeof tuple.y == "number" &&
+        typeof tuple.z == "number" &&
+        typeof tuple.w == "number" &&
+        tuple.w === 1
+    );
 }
 
 function getBool_tupleIsVector(tuple) {
-    return tuple.w === 0;
+    return (
+        tuple.hasOwnProperty("x") &&
+        tuple.hasOwnProperty("y") &&
+        tuple.hasOwnProperty("z") &&
+        tuple.hasOwnProperty("w") &&
+        typeof tuple.x == "number" &&
+        typeof tuple.y == "number" &&
+        typeof tuple.z == "number" &&
+        typeof tuple.w == "number" &&
+        tuple.w === 0
+    );
+}
+
+function getBool_tupleIsColor(col) {
+    return (
+        col.hasOwnProperty("red") &&
+        col.hasOwnProperty("green") &&
+        col.hasOwnProperty("blue") &&
+        typeof col.red == "number" &&
+        typeof col.green == "number" &&
+        typeof col.blue == "number"
+    );
 }
 
 function getBool_tuplesAreEqual(a, b) {
@@ -49,11 +84,21 @@ function getBool_numbersAreEqual(a, b) {
 }
 
 function getBool_isProjectile(proj) {
-    return getBool_tupleIsPoint(proj.position) && getBool_tupleIsVector(proj.velocity);
+    return (
+        proj.hasOwnProperty("position") &&
+        proj.hasOwnProperty("velocity") &&
+        getBool_tupleIsPoint(proj.position) &&
+        getBool_tupleIsVector(proj.velocity)
+    );
 }
 
 function getBool_isEnvironment(env) {
-    return getBool_tupleIsVector(env.gravity) && getBool_tupleIsVector(env.wind);
+    return (
+        env.hasOwnProperty("gravity") &&
+        env.hasOwnProperty("wind") &&
+        getBool_tupleIsVector(env.gravity) &&
+        getBool_tupleIsVector(env.wind)
+    );
 }
 
 function tuple_add(a, b) {
@@ -133,11 +178,13 @@ module.exports = {
     tuple,
     point,
     vector,
+    color,
     projectile,
     environment,
     tick,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
+    getBool_tupleIsColor,
     getBool_tuplesAreEqual,
     getBool_isProjectile,
     getBool_isEnvironment,
