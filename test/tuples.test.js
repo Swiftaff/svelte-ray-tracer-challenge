@@ -13,7 +13,8 @@ const {
     tuple_divide,
     vector_magnitude,
     vector_normalize,
-    vector_dotProduct
+    vector_dotProduct,
+    vector_crossProduct
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -190,7 +191,6 @@ test("The dot product of two vectors", function() {
 });
 
 test("Can't vector_dotProduct points = false (and console error)", function() {
-    console.log(vector_dotProduct(point(1, 2, 3), vector(2, 3, 4)));
     expect(vector_dotProduct(point(1, 2, 3), vector(2, 3, 4))).toBe(false);
 });
 
@@ -200,4 +200,26 @@ test("Can't vector_dotProduct points = false (and console error)", function() {
 
 test("Can't vector_dotProduct points = false (and console error)", function() {
     expect(vector_dotProduct(vector(1, 2, 3), point(2, 3, 4))).toBe(false);
+});
+
+//vector_crossProduct
+
+test("The cross product of two vectors a and b", function() {
+    expect(getBool_tuplesAreEqual(vector_crossProduct(vector(1, 2, 3), vector(2, 3, 4)), vector(-1, 2, -1))).toBe(true);
+});
+
+test("The cross product of two vectors b and a", function() {
+    expect(getBool_tuplesAreEqual(vector_crossProduct(vector(2, 3, 4), vector(1, 2, 3)), vector(1, -2, 1))).toBe(true);
+});
+
+test("Can't vector_crossProduct points = false (and console error)", function() {
+    expect(vector_crossProduct(point(1, 2, 3), vector(2, 3, 4))).toBe(false);
+});
+
+test("Can't vector_crossProduct points = false (and console error)", function() {
+    expect(vector_crossProduct(point(1, 2, 3), point(2, 3, 4))).toBe(false);
+});
+
+test("Can't vector_crossProduct points = false (and console error)", function() {
+    expect(vector_crossProduct(vector(1, 2, 3), point(2, 3, 4))).toBe(false);
 });

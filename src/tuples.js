@@ -97,6 +97,15 @@ function vector_dotProduct(a, b) {
     }
 }
 
+function vector_crossProduct(a, b) {
+    if (a.w === 1 || b.w === 1) {
+        console.warn("vector_crossProduct: can only crossproduct two vectors");
+        return false;
+    } else {
+        return vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+    }
+}
+
 module.exports = {
     tuple,
     point,
@@ -112,5 +121,6 @@ module.exports = {
     tuple_divide,
     vector_magnitude,
     vector_normalize,
-    vector_dotProduct
+    vector_dotProduct,
+    vector_crossProduct
 };
