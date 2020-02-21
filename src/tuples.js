@@ -16,6 +16,20 @@ function color(red, green, blue) {
     return { red, green, blue };
 }
 
+function pixelCanvas(width, height) {
+    console.log("pixelCanvas", width, height);
+    if (typeof width === "number" && typeof height === "number") {
+        let pixel = color(0, 0, 0);
+        let data = [];
+        data.length = width * height;
+        data.fill(pixel);
+        return { data, width, height };
+    } else {
+        console.warn("can't create pixelCanvas");
+        return false;
+    }
+}
+
 function projectile(position, velocity) {
     return { position, velocity };
 }
@@ -109,6 +123,17 @@ function getBool_isEnvironment(env) {
     );
 }
 
+function getBool_isPixelCanvas(c) {
+    return (
+        c.hasOwnProperty("width") &&
+        c.hasOwnProperty("height") &&
+        c.hasOwnProperty("data") &&
+        typeof c.width === "number" &&
+        typeof c.height === "number" &&
+        typeof Array.isArray(c.data)
+    );
+}
+
 function tuple_add(a, b) {
     let tuple = { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z, w: a.w + b.w };
     if (tuple.w === 2) {
@@ -199,11 +224,46 @@ function color_scalarMultiply(a, s) {
     return { red: a.red * s, green: a.green * s, blue: a.blue * s };
 }
 
+function clean(a) {
+    return JSON.parse(JSON.stringify(a));
+}
+
+function pixel_write(c, x, y, col) {
+    let xPos = Math.floor(x);
+    let yPos = Math.floor(y);
+    let index = -1;
+    if (typeof x === "number" && typeof y === "number") {
+        index = c.width * yPos - 1 + xPos;
+    }
+    if (getBool_isPixelCanvas(c) && getBool_tupleIsColor(col) && index >= 0 && index <= c.data.length) {
+        let newC = clean(c);
+        newC.data[index] = col;
+        return newC;
+    }
+    console.warn("canvas_write: error");
+    return false;
+}
+
+function getPixel(c, x, y) {
+    let index = -1;
+    if (typeof x === "number" && typeof y === "number") {
+        let xPos = Math.floor(x);
+        let yPos = Math.floor(y);
+        index = c.width * yPos - 1 + xPos;
+    }
+    if (getBool_isPixelCanvas(c) && index >= 0 && index < c.data.length) {
+        return c.data[index];
+    }
+    console.warn("pixel_at: error", c, x, y);
+    return false;
+}
+
 module.exports = {
     tuple,
     point,
     vector,
     color,
+    pixelCanvas,
     projectile,
     environment,
     tick,
@@ -215,6 +275,7 @@ module.exports = {
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
+    getPixel,
     tuple_add,
     tuple_subtract,
     vector_negate,
@@ -227,5 +288,6 @@ module.exports = {
     colors_add,
     colors_subtract,
     colors_multiply,
-    color_scalarMultiply
+    color_scalarMultiply,
+    pixel_write
 };

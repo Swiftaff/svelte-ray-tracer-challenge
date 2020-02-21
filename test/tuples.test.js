@@ -3,6 +3,7 @@ const {
     point,
     vector,
     color,
+    pixelCanvas,
     projectile,
     environment,
     tick,
@@ -14,6 +15,7 @@ const {
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
+    getPixel,
     tuple_add,
     tuple_subtract,
     vector_negate,
@@ -26,7 +28,8 @@ const {
     colors_add,
     colors_subtract,
     colors_multiply,
-    color_scalarMultiply
+    color_scalarMultiply,
+    pixel_write
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -293,4 +296,63 @@ test("multiplying a color by another color", function() {
     expect(getBool_colorsAreEqual(colors_multiply(color(1, 0.2, 0.4), color(0.9, 1, 0.1)), color(0.9, 0.2, 0.04))).toBe(
         true
     );
+});
+
+//canvas
+
+test("Creating a pixelCanvas", function() {
+    let c = pixelCanvas(10, 20);
+    expect(c.width).toBe(10);
+    expect(c.height).toBe(20);
+    expect(
+        c.data.filter(can => getBool_tupleIsColor(can) && getBool_colorsAreEqual(can, color(0, 0, 0))).length ===
+            c.data.length
+    ).toBe(true);
+});
+
+test("Fail to create a pixelCanvas when width, height are not numbers = false (and console error)", function() {
+    let c = pixelCanvas("invalid value", vector(1, 2, 3));
+    expect(c).toBe(false);
+});
+
+test("Writing a pixel to pixelCanvas", function() {
+    let c = pixelCanvas(10, 20);
+    let red = color(1, 0, 0);
+    c = pixel_write(c, 2, 3, red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(true);
+});
+
+test("Fail to write a pixel to pixelCanvas when not canvas = false (and console error)", function() {
+    let c = vector(1, 2, 3);
+    let red = color(1, 0, 0);
+    c = pixel_write(c, 2, 3, red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
+});
+
+test("Fail to write a pixel to pixelCanvas when not a color = false (and console error)", function() {
+    let c = pixelCanvas(10, 20);
+    let red = point(1, 2, 3);
+    c = pixel_write(c, 2, 3, red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
+});
+
+test("Fail to write a pixel to pixelCanvas when not valid coordinates = false (and console error)", function() {
+    let c = pixelCanvas(10, 20);
+    let red = color(1, 0, 0);
+    c = pixel_write(c, "invalid value", vector(1, 2, 3), red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
+});
+
+test("Fail to write a pixel to pixelCanvas when out of bounds coordinates = false (and console error)", function() {
+    let c = pixelCanvas(10, 20);
+    let red = color(1, 0, 0);
+    c = pixel_write(c, -1, 1, red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
+});
+
+test("Fail to write a pixel to pixelCanvas when out of bounds coordinates = false (and console error)", function() {
+    let c = pixelCanvas(10, 20);
+    let red = color(1, 0, 0);
+    c = pixel_write(c, 1, 10000000, red);
+    expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
 });
