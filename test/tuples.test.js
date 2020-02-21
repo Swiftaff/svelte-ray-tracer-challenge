@@ -12,7 +12,8 @@ const {
     tuple_multiply,
     tuple_divide,
     vector_magnitude,
-    vector_normalize
+    vector_normalize,
+    vector_dotProduct
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -180,4 +181,23 @@ test("The magnitude of a normalized vector gives 1", function() {
 
 test("vector_normalize a point = false (and console error)", function() {
     expect(vector_normalize(point(1, -2, 3))).toBe(false);
+});
+
+//vector_dotProduct
+
+test("The dot product of two vectors", function() {
+    expect(getBool_numbersAreEqual(vector_dotProduct(vector(1, 2, 3), vector(2, 3, 4)), 20)).toBe(true);
+});
+
+test("Can't vector_dotProduct points = false (and console error)", function() {
+    console.log(vector_dotProduct(point(1, 2, 3), vector(2, 3, 4)));
+    expect(vector_dotProduct(point(1, 2, 3), vector(2, 3, 4))).toBe(false);
+});
+
+test("Can't vector_dotProduct points = false (and console error)", function() {
+    expect(vector_dotProduct(point(1, 2, 3), point(2, 3, 4))).toBe(false);
+});
+
+test("Can't vector_dotProduct points = false (and console error)", function() {
+    expect(vector_dotProduct(vector(1, 2, 3), point(2, 3, 4))).toBe(false);
 });

@@ -88,6 +88,15 @@ function vector_normalize(a) {
     }
 }
 
+function vector_dotProduct(a, b) {
+    if (a.w === 1 || b.w === 1) {
+        console.warn("vector_dotProduct: can only dotproduct two vectors");
+        return false;
+    } else {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+}
+
 module.exports = {
     tuple,
     point,
@@ -102,5 +111,6 @@ module.exports = {
     tuple_multiply,
     tuple_divide,
     vector_magnitude,
-    vector_normalize
+    vector_normalize,
+    vector_dotProduct
 };
