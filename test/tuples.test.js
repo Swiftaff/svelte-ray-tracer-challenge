@@ -5,11 +5,13 @@ const {
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
+    getBool_numbersAreEqual,
     tuple_add,
     tuple_subtract,
     vector_negate,
     tuple_multiply,
-    tuple_divide
+    tuple_divide,
+    vector_magnitude
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -136,4 +138,26 @@ test("Dividing a vector by a scalar", function() {
 
 test("Dividing a point by a scalar", function() {
     expect(getBool_tuplesAreEqual(tuple_divide(point(1, -2, 3), 2), point(0.5, -1, 1.5))).toBe(true);
+});
+
+//vector_magnitude
+
+test("Computing the magnitude ofvector(1, 0, 0)", function() {
+    expect(getBool_numbersAreEqual(vector_magnitude(vector(1, 0, 0)), 1)).toBe(true);
+});
+
+test("Computing the magnitude ofvector(0, 1, 0)", function() {
+    expect(getBool_numbersAreEqual(vector_magnitude(vector(0, 1, 0)), 1)).toBe(true);
+});
+
+test("Computing the magnitude ofvector(0, 0, 1)", function() {
+    expect(getBool_numbersAreEqual(vector_magnitude(vector(0, 0, 1)), 1)).toBe(true);
+});
+
+test("Computing the magnitude ofvector(1, 2, 3)", function() {
+    expect(getBool_numbersAreEqual(vector_magnitude(vector(1, 2, 3)), Math.sqrt(14))).toBe(true);
+});
+
+test("Computing the magnitude ofvector(-1, -2, -3)", function() {
+    expect(getBool_numbersAreEqual(vector_magnitude(vector(-1, -2, -3)), Math.sqrt(14))).toBe(true);
 });

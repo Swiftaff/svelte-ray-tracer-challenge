@@ -10,14 +10,21 @@ function getBool_tupleIsVector(tuple) {
 
 function getBool_tuplesAreEqual(a, b) {
     return (
-        Math.abs(a.x - b.x) < EPSILON && Math.abs(a.y - b.y) < EPSILON && Math.abs(a.z - b.z) < EPSILON && a.w === b.w
+        getBool_numbersAreEqual(a.x, b.x) &&
+        getBool_numbersAreEqual(a.y, b.y) &&
+        getBool_numbersAreEqual(a.z, b.z) &&
+        a.w === b.w
     );
+}
+
+function getBool_numbersAreEqual(a, b) {
+    return Math.abs(a - b) < EPSILON;
 }
 
 function tuple_add(a, b) {
     let tuple = { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z, w: a.w + b.w };
     if (tuple.w === 2) {
-        console.error("tuple_add: can't add two points");
+        console.warn("tuple_add: can't add two points");
         return false;
     } else {
         return tuple;
@@ -27,7 +34,7 @@ function tuple_add(a, b) {
 function tuple_subtract(a, b) {
     let tuple = { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z, w: a.w - b.w };
     if (tuple.w === -1) {
-        console.error("tuple_subtract: can't subtract a point from a vector");
+        console.warn("tuple_subtract: can't subtract a point from a vector");
         return false;
     } else {
         return tuple;
@@ -45,13 +52,17 @@ function tuple_divide(a, s) {
 function vector_negate(a) {
     let tuple = { x: -a.x, y: -a.y, z: -a.z, w: a.w };
     if (tuple.w === 1) {
-        console.error(
+        console.warn(
             "tuple_negate: can't negate a point (is this correct - example on page 7 'Negating a tuple' shows the 4th value not being 0 or 1??)"
         );
         return false;
     } else {
         return tuple;
     }
+}
+
+function vector_magnitude(a) {
+    return Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
 function tuple(x, y, z, w) {
@@ -73,9 +84,11 @@ module.exports = {
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tuplesAreEqual,
+    getBool_numbersAreEqual,
     tuple_add,
     tuple_subtract,
     vector_negate,
     tuple_multiply,
-    tuple_divide
+    tuple_divide,
+    vector_magnitude
 };
