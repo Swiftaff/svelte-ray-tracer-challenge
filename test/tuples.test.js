@@ -29,7 +29,8 @@ const {
     colors_subtract,
     colors_multiply,
     color_scalarMultiply,
-    pixel_write
+    pixel_write,
+    pixelCanvas_to_ppm
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -355,4 +356,26 @@ test("Fail to write a pixel to pixelCanvas when out of bounds coordinates = fals
     let red = color(1, 0, 0);
     c = pixel_write(c, 1, 10000000, red);
     expect(getBool_colorsAreEqual(getPixel(c, 2, 3), red)).toBe(false);
+});
+
+test("Constructing the PPM header", function() {
+    let c = pixelCanvas(5, 3);
+    let ppm = pixelCanvas_to_ppm(c);
+    expect(ppm.substring(0, 10)).toBe(`P3
+5 3
+255`);
+});
+
+test("Constructing the PPM pixel data", function() {
+    let c = pixelCanvas(5, 3);
+    let c1 = color(1.5, 0, 0);
+    let c2 = color(0, 0.5, 0);
+    let c3 = color(-0.5, 0, 1);
+    c = pixel_write(c, 0, 0, c1);
+    c = pixel_write(c, 2, 1, c2);
+    c = pixel_write(c, 4, 2, c3);
+    let ppm = pixelCanvas_to_ppm(c);
+    expect(ppm.substring(11, ppm.length - 1)).toBe(
+        `255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 127 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255`
+    );
 });

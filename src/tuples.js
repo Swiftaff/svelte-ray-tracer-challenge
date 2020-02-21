@@ -229,33 +229,75 @@ function clean(a) {
 }
 
 function pixel_write(c, x, y, col) {
-    let xPos = Math.floor(x);
-    let yPos = Math.floor(y);
     let index = -1;
     if (typeof x === "number" && typeof y === "number") {
-        index = c.width * yPos - 1 + xPos;
+        index = c.width * y + x;
     }
     if (getBool_isPixelCanvas(c) && getBool_tupleIsColor(col) && index >= 0 && index <= c.data.length) {
         let newC = clean(c);
         newC.data[index] = col;
         return newC;
     }
-    console.warn("canvas_write: error");
+    console.warn("pixel_write: error");
     return false;
+}
+
+function pixel_clamp(col) {
+    if (col.red < 0) col.red = 0;
+    if (col.green < 0) col.green = 0;
+    if (col.blue < 0) col.blue = 0;
+    if (col.red > 1) col.red = 1;
+    if (col.green > 1) col.green = 1;
+    if (col.blue > 1) col.blue = 1;
+    return col;
 }
 
 function getPixel(c, x, y) {
     let index = -1;
     if (typeof x === "number" && typeof y === "number") {
-        let xPos = Math.floor(x);
-        let yPos = Math.floor(y);
-        index = c.width * yPos - 1 + xPos;
+        index = c.width * y + x;
     }
     if (getBool_isPixelCanvas(c) && index >= 0 && index < c.data.length) {
         return c.data[index];
     }
     console.warn("pixel_at: error", c, x, y);
     return false;
+}
+
+function pixelCanvas_to_ppm(c) {
+    let limit = 255;
+    let ppm =
+        `P3
+` +
+        c.width +
+        ` ` +
+        c.height +
+        `
+` +
+        limit +
+        `
+` +
+        getPixelData(c, 255);
+    return ppm;
+}
+
+function getPixelData(c, limit) {
+    let count = 0;
+    let output = "";
+    c.data.map(col => {
+        count++;
+        let clamped = pixel_clamp(col);
+        if (count > c.width) count = 1;
+        output +=
+            "" +
+            Math.floor(clamped.red * limit) +
+            " " +
+            Math.floor(clamped.green * limit) +
+            " " +
+            Math.floor(clamped.blue * limit) +
+            (count === c.width ? `\n` : " ");
+    });
+    return output;
 }
 
 module.exports = {
@@ -289,5 +331,6 @@ module.exports = {
     colors_subtract,
     colors_multiply,
     color_scalarMultiply,
-    pixel_write
+    pixel_write,
+    pixelCanvas_to_ppm
 };
