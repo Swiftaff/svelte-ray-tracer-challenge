@@ -34,6 +34,14 @@ function tuple_subtract(a, b) {
     }
 }
 
+function tuple_multiply(a, s) {
+    return { x: a.x * s, y: a.y * s, z: a.z * s, w: a.w };
+}
+
+function tuple_divide(a, s) {
+    return { x: a.x / s, y: a.y / s, z: a.z / s, w: a.w };
+}
+
 function vector_negate(a) {
     let tuple = { x: -a.x, y: -a.y, z: -a.z, w: a.w };
     if (tuple.w === 1) {
@@ -67,5 +75,7 @@ module.exports = {
     getBool_tuplesAreEqual,
     tuple_add,
     tuple_subtract,
-    vector_negate
+    vector_negate,
+    tuple_multiply,
+    tuple_divide
 };

@@ -7,7 +7,9 @@ const {
     getBool_tuplesAreEqual,
     tuple_add,
     tuple_subtract,
-    vector_negate
+    vector_negate,
+    tuple_multiply,
+    tuple_divide
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -106,4 +108,32 @@ test("negate a vector = -vector", function() {
 
 test("negate a vector = false (and console error)", function() {
     expect(vector_negate(point(1, -2, 3))).toBe(false);
+});
+
+//tuple_multiply
+
+test("Multiplying a vector by a scalar", function() {
+    expect(getBool_tuplesAreEqual(tuple_multiply(vector(1, -2, 3), 3.5), vector(3.5, -7, 10.5))).toBe(true);
+});
+
+test("Multiplying a point by a scalar", function() {
+    expect(getBool_tuplesAreEqual(tuple_multiply(point(1, -2, 3), 3.5), point(3.5, -7, 10.5))).toBe(true);
+});
+
+test("Multiplying a vector by a fraction", function() {
+    expect(getBool_tuplesAreEqual(tuple_multiply(vector(1, -2, 3), 0.5), vector(0.5, -1, 1.5))).toBe(true);
+});
+
+test("Multiplying a point by a fraction", function() {
+    expect(getBool_tuplesAreEqual(tuple_multiply(point(1, -2, 3), 0.5), point(0.5, -1, 1.5))).toBe(true);
+});
+
+//tuple_divide
+
+test("Dividing a vector by a scalar", function() {
+    expect(getBool_tuplesAreEqual(tuple_divide(vector(1, -2, 3), 2), vector(0.5, -1, 1.5))).toBe(true);
+});
+
+test("Dividing a point by a scalar", function() {
+    expect(getBool_tuplesAreEqual(tuple_divide(point(1, -2, 3), 2), point(0.5, -1, 1.5))).toBe(true);
 });
