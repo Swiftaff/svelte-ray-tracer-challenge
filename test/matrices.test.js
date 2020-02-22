@@ -1,4 +1,4 @@
-const { matrix, getM, getBool_MatricesAreEqual } = require("../src/matrices.js");
+const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply } = require("../src/matrices.js");
 
 test("Creating a matrix", function() {
     let m = [
@@ -68,4 +68,26 @@ test("Matrix equality with different matrices", function() {
         [4, 3, 2, 1]
     ];
     expect(getBool_MatricesAreEqual(m1, m2)).toBe(false);
+});
+
+test("Multiplying two matrices", function() {
+    let m1 = [
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+        [9, 8, 7, 6],
+        [5, 4, 3, 2]
+    ];
+    let m2 = [
+        [-2, 1, 2, 3],
+        [3, 2, 1, -1],
+        [4, 3, 6, 5],
+        [1, 2, 7, 8]
+    ];
+    let m3 = [
+        [20, 22, 50, 48],
+        [44, 54, 114, 108],
+        [40, 58, 110, 102],
+        [16, 26, 46, 42]
+    ];
+    expect(getBool_MatricesAreEqual(matrix_multiply(m1, m2), m3)).toBe(true);
 });
