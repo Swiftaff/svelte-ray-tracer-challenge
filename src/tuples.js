@@ -16,10 +16,9 @@ function color(red, green, blue) {
     return { red, green, blue };
 }
 
-function pixelCanvas(width, height) {
-    console.log("pixelCanvas", width, height);
+function pixelCanvas(width, height, optionalStartColor) {
     if (typeof width === "number" && typeof height === "number") {
-        let pixel = color(0, 0, 0);
+        let pixel = optionalStartColor || color(0, 0, 0);
         let data = [];
         data.length = width * height;
         data.fill(pixel);
@@ -266,38 +265,52 @@ function getPixel(c, x, y) {
 
 function pixelCanvas_to_ppm(c) {
     let limit = 255;
-    let ppm =
-        `P3
-` +
-        c.width +
-        ` ` +
-        c.height +
-        `
-` +
-        limit +
-        `
-` +
-        getPixelData(c, 255);
+    let ppm = "P3\n" + c.width + " " + c.height + "\n" + limit + "\n" + getPixelData(c, 255);
     return ppm;
 }
 
-function getPixelData(c, limit) {
-    let count = 0;
-    let output = "";
-    c.data.map(col => {
-        count++;
-        let clamped = pixel_clamp(col);
-        if (count > c.width) count = 1;
-        output +=
-            "" +
-            Math.floor(clamped.red * limit) +
-            " " +
-            Math.floor(clamped.green * limit) +
-            " " +
-            Math.floor(clamped.blue * limit) +
-            (count === c.width ? `\n` : " ");
-    });
-    return output;
+function getPixelData(c, clampLimit) {
+    let colorStringArray = [];
+    let rowArray = [];
+    c.data.map(col => colorStringArray.push(getString_fromColor(col, clampLimit)));
+    for (let rowStartIndex = 0; rowStartIndex < c.width * c.height; rowStartIndex += c.width) {
+        let thisRow = "";
+        for (let colIndex = 0; colIndex < c.width; colIndex++) {
+            thisRow += colorStringArray[rowStartIndex + colIndex];
+        }
+        if (thisRow.length > 70) {
+            let lastSpaceIndex = thisRow.substring(0, 70);
+            if (thisRow.charAt(70) !== " ") {
+                lastSpaceIndex = thisRow.substring(0, 70).lastIndexOf(" ");
+            }
+            let nextRowOverflow = thisRow.substring(lastSpaceIndex + 1);
+            thisRow = thisRow.substring(0, lastSpaceIndex);
+            rowArray.push(getString_removeTrailingSpace(thisRow));
+            rowArray.push(getString_removeTrailingSpace(nextRowOverflow));
+        } else {
+            rowArray.push(getString_removeTrailingSpace(thisRow));
+        }
+    }
+    return rowArray.join("\n");
+}
+
+function getString_fromColor(col, clampLimit) {
+    let colorClampedToZeroToOne = pixel_clamp(col);
+    return (
+        Math.floor(colorClampedToZeroToOne.red * clampLimit) +
+        " " +
+        Math.floor(colorClampedToZeroToOne.green * clampLimit) +
+        " " +
+        Math.floor(colorClampedToZeroToOne.blue * clampLimit) +
+        " "
+    );
+}
+
+function getString_removeTrailingSpace(str) {
+    if (str.length && str[str.length - 1] === " ") {
+        str = str.substring(0, str.length - 1);
+    }
+    return str;
 }
 
 module.exports = {
@@ -317,6 +330,8 @@ module.exports = {
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
+    getString_removeTrailingSpace,
+    getString_fromColor,
     getPixel,
     tuple_add,
     tuple_subtract,
