@@ -1,5 +1,12 @@
 const { getBool_isTuple, getMatrix_fromTuple } = require("../src/tuples.js");
 
+const identity_matrix = [
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
+];
+
 function matrix(h, w) {
     return Array.from({ length: h }, _ => Array(w).fill(0));
 }
@@ -78,5 +85,6 @@ module.exports = {
     matrix,
     getM,
     getBool_MatricesAreEqual,
-    matrix_multiply
+    matrix_multiply,
+    identity_matrix
 };
