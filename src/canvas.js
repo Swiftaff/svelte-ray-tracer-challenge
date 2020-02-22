@@ -92,7 +92,7 @@ function getPixelData(c, clampLimit) {
             rowArray.push(getString_removeTrailingSpace(thisRow));
         }
     }
-    return rowArray.join("\n");
+    return rowArray.join("\n") + "\n";
 }
 
 function getString_fromColor(col, clampLimit) {
