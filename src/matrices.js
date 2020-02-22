@@ -1,3 +1,5 @@
+const { getBool_isTuple, getMatrix_fromTuple } = require("../src/tuples.js");
+
 function matrix(h, w) {
     return Array.from({ length: h }, _ => Array(w).fill(0));
 }
@@ -18,12 +20,20 @@ function getBool_MatricesAreEqual(m1, m2) {
 function matrix_multiply(m1, m2) {
     let m1y = m1.length;
     let m1x = m1[0].length;
+    let m2isTuple = false;
+
+    //allows m2 to be a tuple for matrix & tuple multiplication
+    if (getBool_isTuple(m2)) {
+        let newM2 = [[m2.x], [m2.y], [m2.z], [m2.w]];
+        m2 = newM2;
+        m2isTuple = true;
+    }
     let m2y = m2.length;
     let m2x = m2[0].length;
-    if (m1y === m2y && m1x === m2x) {
-        let result = matrix(m1y, m1x);
+    if (m1y === m2y) {
+        let result = matrix(m1y, m2x);
         for (let y = 0; y < m1y; y++) {
-            for (let x = 0; x < m1x; x++) {
+            for (let x = 0; x < m2x; x++) {
                 let thisResult = 0;
                 for (let xx = 0; xx < m1x; xx++) {
                     thisResult += m1[y][xx] * m2[xx][x];
@@ -31,8 +41,9 @@ function matrix_multiply(m1, m2) {
                 result[y][x] = thisResult;
             }
         }
-        console.log(result);
-        return result;
+        let finalResult = m2isTuple ? getMatrix_fromTuple(result) : result;
+        console.log(finalResult);
+        return finalResult;
     } else {
         console.warn("can't multiply different sized matrices");
         return false;

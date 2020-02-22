@@ -33,7 +33,7 @@ function tick(env, proj) {
     return projectile(position, velocity);
 }
 
-function getBool_tupleIsPoint(tuple) {
+function getBool_isTuple(tuple) {
     return (
         tuple.hasOwnProperty("x") &&
         tuple.hasOwnProperty("y") &&
@@ -42,23 +42,16 @@ function getBool_tupleIsPoint(tuple) {
         typeof tuple.x == "number" &&
         typeof tuple.y == "number" &&
         typeof tuple.z == "number" &&
-        typeof tuple.w == "number" &&
-        tuple.w === 1
+        typeof tuple.w == "number"
     );
 }
 
+function getBool_tupleIsPoint(tuple) {
+    return getBool_isTuple(tuple) && tuple.w === 1;
+}
+
 function getBool_tupleIsVector(tuple) {
-    return (
-        tuple.hasOwnProperty("x") &&
-        tuple.hasOwnProperty("y") &&
-        tuple.hasOwnProperty("z") &&
-        tuple.hasOwnProperty("w") &&
-        typeof tuple.x == "number" &&
-        typeof tuple.y == "number" &&
-        typeof tuple.z == "number" &&
-        typeof tuple.w == "number" &&
-        tuple.w === 0
-    );
+    return getBool_isTuple(tuple) && tuple.w === 0;
 }
 
 function getBool_tupleIsColor(col) {
@@ -88,9 +81,14 @@ function getBool_colorsAreEqual(a, b) {
         getBool_numbersAreEqual(a.blue, b.blue)
     );
 }
+``;
 
 function getBool_numbersAreEqual(a, b) {
     return Math.abs(a - b) < EPSILON;
+}
+
+function getMatrix_fromTuple(matrix4by1) {
+    return { x: matrix4by1[0][0], y: matrix4by1[1][0], z: matrix4by1[2][0], w: matrix4by1[3][0] };
 }
 
 function getBool_isProjectile(proj) {
@@ -209,6 +207,7 @@ module.exports = {
     projectile,
     environment,
     tick,
+    getBool_isTuple,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,
     getBool_tupleIsColor,
@@ -217,6 +216,7 @@ module.exports = {
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
+    getMatrix_fromTuple,
     tuple_add,
     tuple_subtract,
     vector_negate,
