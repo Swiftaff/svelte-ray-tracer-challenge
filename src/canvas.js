@@ -29,17 +29,16 @@ function clean(a) {
 }
 
 function pixel_write(c, x, y, col) {
-    let index = -1;
-    if (typeof x === "number" && typeof y === "number") {
-        index = c.width * y + x;
-    }
-    if (getBool_isPixelCanvas(c) && getBool_tupleIsColor(col) && index >= 0 && index <= c.data.length) {
-        let newC = clean(c);
-        newC.data[index] = col;
-        return newC;
+    if (typeof x === "number" && typeof y === "number" && x >= 0 && y >= 0 && x < c.width && y < c.height) {
+        let index = Math.floor(c.width * y) + Math.floor(x);
+        if (getBool_isPixelCanvas(c) && getBool_tupleIsColor(col)) {
+            let newC = clean(c);
+            newC.data[index] = col;
+            return newC;
+        }
     }
     console.warn("pixel_write: error");
-    return false;
+    return c;
 }
 
 function pixel_clamp(col) {
@@ -87,6 +86,7 @@ function getPixelData(c, clampLimit) {
             let nextRowOverflow = thisRow.substring(lastSpaceIndex + 1);
             thisRow = thisRow.substring(0, lastSpaceIndex);
             rowArray.push(getString_removeTrailingSpace(thisRow));
+
             rowArray.push(getString_removeTrailingSpace(nextRowOverflow));
         } else {
             rowArray.push(getString_removeTrailingSpace(thisRow));

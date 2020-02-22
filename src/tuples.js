@@ -28,6 +28,8 @@ function tick(env, proj) {
     let position = tuple_add(proj.position, proj.velocity);
     let envVector = tuple_add(env.gravity, env.wind);
     let velocity = tuple_add(proj.velocity, envVector);
+    position.x = Math.floor(position.x);
+    position.y = Math.floor(position.y);
     return projectile(position, velocity);
 }
 
