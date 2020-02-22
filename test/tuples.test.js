@@ -3,7 +3,6 @@ const {
     point,
     vector,
     color,
-    pixelCanvas,
     projectile,
     environment,
     tick,
@@ -15,9 +14,6 @@ const {
     getBool_isProjectile,
     getBool_isEnvironment,
     getBool_numbersAreEqual,
-    getString_removeTrailingSpace,
-    getString_fromColor,
-    getPixel,
     tuple_add,
     tuple_subtract,
     vector_negate,
@@ -30,10 +26,21 @@ const {
     colors_add,
     colors_subtract,
     colors_multiply,
-    color_scalarMultiply,
-    pixel_write,
-    pixelCanvas_to_ppm
+    color_scalarMultiply
 } = require("../src/tuples.js");
+
+const {
+    pixelCanvas,
+    getBool_isPixelCanvas,
+    clean,
+    pixel_write,
+    pixel_clamp,
+    getPixel,
+    pixelCanvas_to_ppm,
+    getPixelData,
+    getString_fromColor,
+    getString_removeTrailingSpace
+} = require("../src/canvas.js");
 
 test("A tuple with w=1.0 is a point", function() {
     let a = tuple(4.3, -4.2, 3.1, 1.0);
