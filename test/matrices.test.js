@@ -1,4 +1,4 @@
-const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, identity_matrix } = require("../src/matrices.js");
+const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, matrix_transpose, identity_matrix } = require("../src/matrices.js");
 const { tuple, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
 test("Creating a matrix", function() {
@@ -113,4 +113,24 @@ test("Multiplying a matrix by the identity matrix", function() {
         [4, 8, 16, 32]
     ];
     expect(getBool_MatricesAreEqual(matrix_multiply(m1, identity_matrix), m1)).toBe(true);
+});
+
+test("Transposing a Matrix", function() {
+    let m1 = [
+        [0,9,3,0],
+        [9,8,0,8],
+        [1,8,5,3],
+        [0,0,5,8]
+    ];
+    let m2 = [
+        [0,9,1,0],
+        [9,8,8,0],
+        [3,0,5,5],
+        [0,8,3,8]
+    ];
+    expect(getBool_MatricesAreEqual(matrix_transpose(m1), m2)).toBe(true);
+});
+
+test("Transposing the identity matrix", function() {
+    expect(getBool_MatricesAreEqual(matrix_transpose(identity_matrix), identity_matrix)).toBe(true);
 });

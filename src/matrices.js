@@ -57,34 +57,23 @@ function matrix_multiply(m1, m2) {
     }
 }
 
-//is this the long way?
-/*
-function getBool_MatricesAreEqual(m1, m2) {
-    let areEqual = true;
-    let m1y = m1.length;
-    let m1x = m1[0].length;
-    let m2y = m2.length;
-    let m2x = m2[0].length;
-
-    if (m1y === m2y && m1x === m2x) {
-        for (let y = 0; y < m1.length; y++) {
-            for (let x = 0; index < array.length; index++) {
-                if (!getBool_numbersAreEqual(m1[y][x], b.x)) {
-                    areEqal = false;
-                }
+function matrix_transpose(m){
+    let my = m.length;
+    let mx = m[0].length;
+    let result = matrix(my, mx);
+        for (let y = 0; y < my; y++) {
+            for (let x = 0; x < mx; x++) {
+                result[y][x] = m[x][y];
             }
         }
-    } else {
-        areEqual = false;
-    }
-    return areEqual;
+        return result;
 }
-*/
 
 module.exports = {
+    identity_matrix,
     matrix,
     getM,
     getBool_MatricesAreEqual,
     matrix_multiply,
-    identity_matrix
+    matrix_transpose
 };
