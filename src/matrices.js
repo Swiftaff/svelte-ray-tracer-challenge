@@ -69,11 +69,16 @@ function matrix_transpose(m){
         return result;
 }
 
+function determinant(m){
+    return m[0][0]*m[1][1]-m[0][1]*m[1][0]
+}
+
 module.exports = {
     identity_matrix,
     matrix,
     getM,
     getBool_MatricesAreEqual,
     matrix_multiply,
-    matrix_transpose
+    matrix_transpose,
+    determinant
 };

@@ -1,4 +1,4 @@
-const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, matrix_transpose, identity_matrix } = require("../src/matrices.js");
+const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, determinant, matrix_transpose, identity_matrix } = require("../src/matrices.js");
 const { tuple, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
 test("Creating a matrix", function() {
@@ -133,4 +133,12 @@ test("Transposing a Matrix", function() {
 
 test("Transposing the identity matrix", function() {
     expect(getBool_MatricesAreEqual(matrix_transpose(identity_matrix), identity_matrix)).toBe(true);
+});
+
+test("Calculating the determinant of a 2x2 matrix", function() {
+    let m = [
+        [1,5],
+        [-3,2]
+    ];
+    expect(getBool_MatricesAreEqual(determinant(m), 17)).toBe(true);
 });
