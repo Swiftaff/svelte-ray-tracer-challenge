@@ -1,4 +1,4 @@
-const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, determinant, matrix_transpose, identity_matrix } = require("../src/matrices.js");
+const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, matrix_transpose, identity_matrix, determinant,submatrix } = require("../src/matrices.js");
 const { tuple, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
 test("Creating a matrix", function() {
@@ -141,4 +141,14 @@ test("Calculating the determinant of a 2x2 matrix", function() {
         [-3,2]
     ];
     expect(getBool_MatricesAreEqual(determinant(m), 17)).toBe(true);
+});
+
+test("A submatrix of 3x3 matrix is a 2x2 matrix", function() {
+    let m = [
+        [1,5,0],
+        [-3,2,7],
+        [0,6,-3]
+    ];
+    let result = [[-3,2],[0,6]];
+    expect(getBool_MatricesAreEqual(submatrix(m,0,2), result)).toBe(true);
 });

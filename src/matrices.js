@@ -49,7 +49,6 @@ function matrix_multiply(m1, m2) {
             }
         }
         let finalResult = m2isTuple ? getMatrix_fromTuple(result) : result;
-        console.log(finalResult);
         return finalResult;
     } else {
         console.warn("can't multiply different sized matrices");
@@ -73,6 +72,26 @@ function determinant(m){
     return m[0][0]*m[1][1]-m[0][1]*m[1][0]
 }
 
+function submatrix(m, rowToDelete, colToDelete){
+    let my = m.length;
+    let mx = m[0].length;
+    let result = matrix(my, mx);
+    for (let y = 0; y < my; y++) {
+        for (let x = 0; x < mx; x++) {
+            //if (y!==rowToDelete){
+            //    if (x!==colToDelete){
+                    let xx=x>colToDelete?x-1:x;
+                    let yy=y>rowToDelete?y-1:y;
+                    result[yy][xx] = m[y][x];
+            //    }
+            //}
+        }
+    }
+    console.log(result)
+    return result;
+}
+
+
 module.exports = {
     identity_matrix,
     matrix,
@@ -80,5 +99,6 @@ module.exports = {
     getBool_MatricesAreEqual,
     matrix_multiply,
     matrix_transpose,
-    determinant
+    determinant,
+    submatrix
 };
