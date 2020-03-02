@@ -1,4 +1,4 @@
-const { getBool_isTuple, getMatrix_fromTuple } = require("../src/tuples.js");
+const { getBool_isTuple, getBool_numbersAreEqual, getMatrix_fromTuple } = require("../src/tuples.js");
 
 const identity_matrix = [
     [1, 0, 0, 0],
@@ -20,8 +20,22 @@ function getM(m, y, x) {
     }
 }
 
-function getBool_MatricesAreEqual(m1, m2) {
-    return JSON.stringify(m1) === JSON.stringify(m2);
+function getBool_matricesAreEqual(m1, m2, test) {
+    let failed = false;
+    let rows = m1.length;
+    let cols = m1[0].length;
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            if (!getBool_numbersAreEqual(m1[y][x], m2[y][x])) {
+                failed = true;
+            }
+        }
+    }
+    return !failed;
+}
+
+function getBool_matrixIsInvertible(m) {
+    return !getBool_numbersAreEqual(determinant(m), 0);
 }
 
 function matrix_multiply(m1, m2) {
@@ -107,15 +121,35 @@ function cofactor(m, row, col) {
     return (row + col) % 2 === 1 ? -1 * m1 : m1;
 }
 
+function inverse(m) {
+    if (getBool_matrixIsInvertible(m)) {
+        let my = m.length;
+        let mx = m[0].length;
+        let result = matrix(my, mx);
+        for (let y = 0; y < my; y++) {
+            for (let x = 0; x < mx; x++) {
+                let c = cofactor(m, y, x);
+                result[x][y] = c / determinant(m);
+            }
+        }
+        return result;
+    } else {
+        console.warn("can't invert this matrix");
+        return m;
+    }
+}
+
 module.exports = {
     identity_matrix,
     matrix,
     getM,
-    getBool_MatricesAreEqual,
+    getBool_matricesAreEqual,
+    getBool_matrixIsInvertible,
     matrix_multiply,
     matrix_transpose,
     determinant,
     submatrix,
     minor,
-    cofactor
+    cofactor,
+    inverse
 };

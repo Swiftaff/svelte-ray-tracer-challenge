@@ -1,13 +1,15 @@
 const {
     getM,
-    getBool_MatricesAreEqual,
+    getBool_matricesAreEqual,
+    getBool_matrixIsInvertible,
     matrix_multiply,
     matrix_transpose,
     identity_matrix,
     determinant,
     submatrix,
     minor,
-    cofactor
+    cofactor,
+    inverse
 } = require("../src/matrices.js");
 const { tuple, getBool_numbersAreEqual, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
@@ -62,7 +64,7 @@ test("Matrix equality with identical matrices", function() {
         [9, 8, 7, 6],
         [5, 4, 3, 2]
     ];
-    expect(getBool_MatricesAreEqual(m1, m2)).toBe(true);
+    expect(getBool_matricesAreEqual(m1, m2)).toBe(true);
 });
 
 test("Matrix equality with different matrices", function() {
@@ -78,7 +80,7 @@ test("Matrix equality with different matrices", function() {
         [8, 7, 6, 5],
         [4, 3, 2, 1]
     ];
-    expect(getBool_MatricesAreEqual(m1, m2)).toBe(false);
+    expect(getBool_matricesAreEqual(m1, m2)).toBe(false);
 });
 
 test("Multiplying two matrices", function() {
@@ -100,7 +102,7 @@ test("Multiplying two matrices", function() {
         [40, 58, 110, 102],
         [16, 26, 46, 42]
     ];
-    expect(getBool_MatricesAreEqual(matrix_multiply(m1, m2), m3)).toBe(true);
+    expect(getBool_matricesAreEqual(matrix_multiply(m1, m2), m3)).toBe(true);
 });
 
 test("A matrix multiplied by a tuple", function() {
@@ -122,7 +124,7 @@ test("Multiplying a matrix by the identity matrix", function() {
         [2, 4, 8, 16],
         [4, 8, 16, 32]
     ];
-    expect(getBool_MatricesAreEqual(matrix_multiply(m1, identity_matrix), m1)).toBe(true);
+    expect(getBool_matricesAreEqual(matrix_multiply(m1, identity_matrix), m1)).toBe(true);
 });
 
 test("Transposing a Matrix", function() {
@@ -138,11 +140,11 @@ test("Transposing a Matrix", function() {
         [3, 0, 5, 5],
         [0, 8, 3, 8]
     ];
-    expect(getBool_MatricesAreEqual(matrix_transpose(m1), m2)).toBe(true);
+    expect(getBool_matricesAreEqual(matrix_transpose(m1), m2)).toBe(true);
 });
 
 test("Transposing the identity matrix", function() {
-    expect(getBool_MatricesAreEqual(matrix_transpose(identity_matrix), identity_matrix)).toBe(true);
+    expect(getBool_matricesAreEqual(matrix_transpose(identity_matrix), identity_matrix)).toBe(true);
 });
 
 test("Calculating the determinant of a 2x2 matrix", function() {
@@ -150,7 +152,7 @@ test("Calculating the determinant of a 2x2 matrix", function() {
         [1, 5],
         [-3, 2]
     ];
-    expect(getBool_MatricesAreEqual(determinant(m), 17)).toBe(true);
+    expect(getBool_numbersAreEqual(determinant(m), 17)).toBe(true);
 });
 
 test("A submatrix of 3x3 matrix is a 2x2 matrix", function() {
@@ -163,7 +165,7 @@ test("A submatrix of 3x3 matrix is a 2x2 matrix", function() {
         [-3, 2],
         [0, 6]
     ];
-    expect(getBool_MatricesAreEqual(submatrix(m, 0, 2), result)).toBe(true);
+    expect(getBool_matricesAreEqual(submatrix(m, 0, 2), result)).toBe(true);
 });
 
 test("A submatrix of 4x4 matrix is a 3x3 matrix", function() {
@@ -178,7 +180,7 @@ test("A submatrix of 4x4 matrix is a 3x3 matrix", function() {
         [-8, 8, 6],
         [-7, -1, 1]
     ];
-    expect(getBool_MatricesAreEqual(submatrix(m, 2, 1), result)).toBe(true);
+    expect(getBool_matricesAreEqual(submatrix(m, 2, 1), result)).toBe(true);
 });
 
 test("Calculating a minor of a 3 x 3 matrix", function() {
@@ -229,4 +231,99 @@ test("Calculating the determinant of a 4 x 4 matrix", function() {
     expect(getBool_numbersAreEqual(cofactor(m, 0, 2), 210)).toBe(true);
     expect(getBool_numbersAreEqual(cofactor(m, 0, 3), 51)).toBe(true);
     expect(getBool_numbersAreEqual(determinant(m), -4071)).toBe(true);
+});
+
+test("Testing an invertible matrix for invertability", function() {
+    let m = [
+        [6, 4, 4, 4],
+        [5, 5, 7, 6],
+        [4, -9, 3, -7],
+        [9, 1, 7, -6]
+    ];
+    expect(getBool_numbersAreEqual(determinant(m), -2120)).toBe(true);
+    expect(getBool_matrixIsInvertible(m)).toBe(true);
+});
+
+test("Testing a noninvertible matrix for invertability", function() {
+    let m = [
+        [-4, 2, -2, -3],
+        [9, 6, 2, 6],
+        [0, -5, 1, -5],
+        [0, 0, 0, 0]
+    ];
+    expect(getBool_numbersAreEqual(determinant(m), 0)).toBe(true);
+    expect(getBool_matrixIsInvertible(m)).toBe(false);
+});
+
+test("Calculating the inverse of a matrix", function() {
+    let m1 = [
+        [-5, 2, 6, -8],
+        [1, -5, 1, 8],
+        [7, 7, -6, -7],
+        [1, -3, 7, 4]
+    ];
+    let m2 = inverse(m1);
+    let result = [
+        [0.21805, 0.45113, 0.2406, -0.04511],
+        [-0.80827, -1.45677, -0.44361, 0.52068],
+        [-0.07895, -0.22368, -0.05263, 0.19737],
+        [-0.52256, -0.81391, -0.30075, 0.30639]
+    ];
+    expect(getBool_numbersAreEqual(determinant(m1), 532)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m1, 2, 3), -160)).toBe(true);
+    expect(getBool_numbersAreEqual(m2[3][2], -160 / 532)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m1, 3, 2), 105)).toBe(true);
+    expect(getBool_numbersAreEqual(m2[2][3], 105 / 532)).toBe(true);
+    expect(getBool_matricesAreEqual(m2, result)).toBe(true);
+});
+
+test("Calculating the inverse of another matrix", function() {
+    let m1 = [
+        [8, -5, 9, 2],
+        [7, 5, 6, 1],
+        [-6, 0, 9, 6],
+        [-3, 0, -9, -4]
+    ];
+    let m2 = inverse(m1);
+    let result = [
+        [-0.15385, -0.15385, -0.28205, -0.53846],
+        [-0.07692, 0.12308, 0.02564, 0.03077],
+        [0.35897, 0.35897, 0.4359, 0.92308],
+        [-0.69231, -0.69231, -0.76923, -1.92308]
+    ];
+    expect(getBool_matricesAreEqual(m2, result)).toBe(true);
+});
+
+test("Calculating the inverse of a third matrix", function() {
+    let m1 = [
+        [9, 3, 0, 9],
+        [-5, -2, -6, -3],
+        [-4, 9, 6, 4],
+        [-7, 6, 6, 2]
+    ];
+    let m2 = inverse(m1);
+    let result = [
+        [-0.04074, -0.07778, 0.14444, -0.22222],
+        [-0.07778, 0.03333, 0.36667, -0.33333],
+        [-0.02901, -0.1463, -0.10926, 0.12963],
+        [0.17778, 0.06667, -0.26667, 0.33333]
+    ];
+    expect(getBool_matricesAreEqual(m2, result)).toBe(true);
+});
+
+test("Multiplying a product by its inverse", function() {
+    let m1 = [
+        [3, -9, 7, 3],
+        [3, -8, 2, -9],
+        [-4, 4, 4, 1],
+        [-6, 5, -1, 1]
+    ];
+    let m2 = [
+        [8, 2, 2, 2],
+        [3, -1, 7, 0],
+        [7, 0, 5, 4],
+        [6, -2, 0, 5]
+    ];
+    let m3 = matrix_multiply(m1, m2);
+    expect(getBool_matricesAreEqual(matrix_multiply(m3, inverse(m2)), m1)).toBe(true);
 });
