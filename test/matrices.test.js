@@ -204,3 +204,29 @@ test("Calculating a cofactor of a 3 x 3 matrix", function() {
     expect(getBool_numbersAreEqual(minor(m, 1, 0), 25)).toBe(true);
     expect(getBool_numbersAreEqual(cofactor(m, 1, 0), -25)).toBe(true);
 });
+
+test("Calculating the determinant of a 3 x 3 matrix", function() {
+    let m = [
+        [1, 2, 6],
+        [-5, 8, -4],
+        [2, 6, 4]
+    ];
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 0), 56)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 1), 12)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 2), -46)).toBe(true);
+    expect(getBool_numbersAreEqual(determinant(m), -196)).toBe(true);
+});
+
+test("Calculating the determinant of a 4 x 4 matrix", function() {
+    let m = [
+        [-2, -8, 3, 5],
+        [-3, 1, 7, 3],
+        [1, 2, -9, 6],
+        [-6, 7, 7, -9]
+    ];
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 0), 690)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 1), 447)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 2), 210)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 3), 51)).toBe(true);
+    expect(getBool_numbersAreEqual(determinant(m), -4071)).toBe(true);
+});

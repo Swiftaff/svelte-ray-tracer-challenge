@@ -69,7 +69,15 @@ function matrix_transpose(m) {
 }
 
 function determinant(m) {
-    return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+    let det = 0;
+    if (m.length === 2) {
+        det = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+    } else {
+        for (let col = 0; col < m.length; col++) {
+            det = det + m[0][col] * cofactor(m, 0, col);
+        }
+    }
+    return det;
 }
 
 function submatrix(m, rowToDelete, colToDelete) {
@@ -95,8 +103,6 @@ function minor(m, rowToDelete, colToDelete) {
 }
 
 function cofactor(m, row, col) {
-    console.log(row + col);
-    console.log((row + col) % 2);
     let m1 = minor(m, row, col);
     return (row + col) % 2 === 1 ? -1 * m1 : m1;
 }
