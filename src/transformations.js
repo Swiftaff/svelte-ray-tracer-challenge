@@ -41,9 +41,20 @@ function rotation_y_rad(r) {
 function rotation_z_rad(r) {
     let t = matrix_clone(identity_matrix);
     t[0][0] = Math.cos(r);
-    t[0][2] = -1 * Math.sin(r);
+    t[0][1] = -1 * Math.sin(r);
     t[1][0] = Math.sin(r);
-    t[1][2] = Math.cos(r);
+    t[1][1] = Math.cos(r);
+    return t;
+}
+
+function shearing(xy, xz, yx, yz, zx, zy) {
+    let t = matrix_clone(identity_matrix);
+    t[0][1] = xy;
+    t[0][2] = xz;
+    t[1][0] = yx;
+    t[1][2] = yz;
+    t[2][0] = zx;
+    t[2][1] = zy;
     return t;
 }
 
@@ -53,5 +64,6 @@ module.exports = {
     radians_to_degrees,
     rotation_x_rad,
     rotation_y_rad,
-    rotation_z_rad
+    rotation_z_rad,
+    shearing
 };
