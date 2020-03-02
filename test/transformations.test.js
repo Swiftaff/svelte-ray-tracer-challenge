@@ -6,7 +6,8 @@ const {
     rotation_x_rad,
     rotation_y_rad,
     rotation_z_rad,
-    shearing
+    shearing,
+    transform_chain
 } = require("../src/transformations.js");
 
 //translation
@@ -144,4 +145,28 @@ test("A shearing transformation moves z in proportion to y", function() {
     let t = shearing(0, 0, 0, 0, 0, 1);
     let result = point(2, 3, 7);
     expect(getBool_tuplesAreEqual(matrix_multiply(t, p), result)).toBe(true);
+});
+
+//chaining
+
+test("Individual transformations are applied in sequence", function() {
+    let p = point(1, 0, 1);
+    let a = rotation_x_rad(Math.PI / 2);
+    let b = scaling(5, 5, 5);
+    let c = translation(10, 5, 7);
+    let p2 = matrix_multiply(a, p);
+    expect(getBool_tuplesAreEqual(p2, point(1, -1, 0))).toBe(true);
+    let p3 = matrix_multiply(b, p2);
+    expect(getBool_tuplesAreEqual(p3, point(5, -5, 0))).toBe(true);
+    let p4 = matrix_multiply(c, p3);
+    expect(getBool_tuplesAreEqual(p4, point(15, 0, 7))).toBe(true);
+});
+
+test("Chained transformations must be applied in reverse order", function() {
+    let p = point(1, 0, 1);
+    let a = rotation_x_rad(Math.PI / 2);
+    let b = scaling(5, 5, 5);
+    let c = translation(10, 5, 7);
+    let p2 = transform_chain([a, b, c], p);
+    expect(getBool_tuplesAreEqual(p2, point(15, 0, 7))).toBe(true);
 });

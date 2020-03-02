@@ -1,4 +1,4 @@
-const { identity_matrix, matrix_clone } = require("./matrices.js");
+const { identity_matrix, matrix_clone, matrix_multiply } = require("./matrices.js");
 
 function radians_to_degrees(r) {
     return (r * 180) / Math.PI;
@@ -58,6 +58,13 @@ function shearing(xy, xz, yx, yz, zx, zy) {
     return t;
 }
 
+function transform_chain(arr, tuple) {
+    //applied in order provided in array
+    let newTuple = tuple;
+    arr.map(t => (newTuple = matrix_multiply(t, newTuple)));
+    return newTuple;
+}
+
 module.exports = {
     translation,
     scaling,
@@ -65,5 +72,6 @@ module.exports = {
     rotation_x_rad,
     rotation_y_rad,
     rotation_z_rad,
-    shearing
+    shearing,
+    transform_chain
 };
