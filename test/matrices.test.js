@@ -1,5 +1,14 @@
-const { matrix, getM, getBool_MatricesAreEqual, matrix_multiply, matrix_transpose, identity_matrix, determinant,submatrix } = require("../src/matrices.js");
-const { tuple, getBool_tuplesAreEqual } = require("../src/tuples.js");
+const {
+    getM,
+    getBool_MatricesAreEqual,
+    matrix_multiply,
+    matrix_transpose,
+    identity_matrix,
+    determinant,
+    submatrix,
+    minor
+} = require("../src/matrices.js");
+const { tuple, getBool_numbersAreEqual, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
 test("Creating a matrix", function() {
     let m = [
@@ -117,16 +126,16 @@ test("Multiplying a matrix by the identity matrix", function() {
 
 test("Transposing a Matrix", function() {
     let m1 = [
-        [0,9,3,0],
-        [9,8,0,8],
-        [1,8,5,3],
-        [0,0,5,8]
+        [0, 9, 3, 0],
+        [9, 8, 0, 8],
+        [1, 8, 5, 3],
+        [0, 0, 5, 8]
     ];
     let m2 = [
-        [0,9,1,0],
-        [9,8,8,0],
-        [3,0,5,5],
-        [0,8,3,8]
+        [0, 9, 1, 0],
+        [9, 8, 8, 0],
+        [3, 0, 5, 5],
+        [0, 8, 3, 8]
     ];
     expect(getBool_MatricesAreEqual(matrix_transpose(m1), m2)).toBe(true);
 });
@@ -137,18 +146,47 @@ test("Transposing the identity matrix", function() {
 
 test("Calculating the determinant of a 2x2 matrix", function() {
     let m = [
-        [1,5],
-        [-3,2]
+        [1, 5],
+        [-3, 2]
     ];
     expect(getBool_MatricesAreEqual(determinant(m), 17)).toBe(true);
 });
 
 test("A submatrix of 3x3 matrix is a 2x2 matrix", function() {
     let m = [
-        [1,5,0],
-        [-3,2,7],
-        [0,6,-3]
+        [1, 5, 0],
+        [-3, 2, 7],
+        [0, 6, -3]
     ];
-    let result = [[-3,2],[0,6]];
-    expect(getBool_MatricesAreEqual(submatrix(m,0,2), result)).toBe(true);
+    let result = [
+        [-3, 2],
+        [0, 6]
+    ];
+    expect(getBool_MatricesAreEqual(submatrix(m, 0, 2), result)).toBe(true);
+});
+
+test("A submatrix of 4x4 matrix is a 3x3 matrix", function() {
+    let m = [
+        [-6, 1, 1, 6],
+        [-8, 5, 8, 6],
+        [-1, 0, 8, 2],
+        [-7, 1, -1, 1]
+    ];
+    let result = [
+        [-6, 1, 6],
+        [-8, 8, 6],
+        [-7, -1, 1]
+    ];
+    expect(getBool_MatricesAreEqual(submatrix(m, 2, 1), result)).toBe(true);
+});
+
+test("Calculating a minor of a 3 x 3 matrix", function() {
+    let m = [
+        [3, 5, 0],
+        [2, -1, -7],
+        [6, -1, 5]
+    ];
+    let s = submatrix(m, 1, 0);
+    let d = determinant(s);
+    expect(getBool_numbersAreEqual(minor(m, 1, 0), d)).toBe(true);
 });

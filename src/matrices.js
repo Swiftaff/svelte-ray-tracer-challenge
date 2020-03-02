@@ -56,41 +56,43 @@ function matrix_multiply(m1, m2) {
     }
 }
 
-function matrix_transpose(m){
-    let my = m.length;
-    let mx = m[0].length;
-    let result = matrix(my, mx);
-        for (let y = 0; y < my; y++) {
-            for (let x = 0; x < mx; x++) {
-                result[y][x] = m[x][y];
-            }
-        }
-        return result;
-}
-
-function determinant(m){
-    return m[0][0]*m[1][1]-m[0][1]*m[1][0]
-}
-
-function submatrix(m, rowToDelete, colToDelete){
+function matrix_transpose(m) {
     let my = m.length;
     let mx = m[0].length;
     let result = matrix(my, mx);
     for (let y = 0; y < my; y++) {
         for (let x = 0; x < mx; x++) {
-            //if (y!==rowToDelete){
-            //    if (x!==colToDelete){
-                    let xx=x>colToDelete?x-1:x;
-                    let yy=y>rowToDelete?y-1:y;
-                    result[yy][xx] = m[y][x];
-            //    }
-            //}
+            result[y][x] = m[x][y];
         }
     }
-    console.log(result)
     return result;
 }
 
+function determinant(m) {
+    return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+}
+
+function submatrix(m, rowToDelete, colToDelete) {
+    let my = m.length;
+    let mx = m[0].length;
+    let result = matrix(my - 1, mx - 1);
+    for (let y = 0; y < my; y++) {
+        for (let x = 0; x < mx; x++) {
+            if (y !== rowToDelete) {
+                if (x !== colToDelete) {
+                    let xx = x > colToDelete ? x - 1 : x;
+                    let yy = y > rowToDelete ? y - 1 : y;
+                    result[yy][xx] = m[y][x];
+                }
+            }
+        }
+    }
+    return result;
+}
+
+function minor(m, rowToDelete, colToDelete) {
+    return determinant(submatrix(m, rowToDelete, colToDelete));
+}
 
 module.exports = {
     identity_matrix,
@@ -100,5 +102,6 @@ module.exports = {
     matrix_multiply,
     matrix_transpose,
     determinant,
-    submatrix
+    submatrix,
+    minor
 };
