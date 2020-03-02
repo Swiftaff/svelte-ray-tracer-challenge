@@ -1,6 +1,6 @@
 const { inverse, matrix_multiply } = require("../src/matrices.js");
 const { vector, point, getBool_tuplesAreEqual } = require("../src/tuples.js");
-const { translation, scaling } = require("../src/transformations.js");
+const { translation, scaling, rotation_x_rad, rotation_y_rad, rotation_z_rad } = require("../src/transformations.js");
 
 //translation
 test("Multiplying by a translation matrix", function() {
@@ -54,3 +54,44 @@ test("Reflection is scaling by a negative value", function() {
     let result = point(-2, 3, 4);
     expect(getBool_tuplesAreEqual(matrix_multiply(t, p), result)).toBe(true);
 });
+
+//rotations
+
+test("Rotating a point around the x axis", function() {
+    let p = point(0, 1, 0);
+    let half_quarter = rotation_x_rad(Math.PI / 4);
+    let full_quarter = rotation_x_rad(Math.PI / 2);
+    let result1 = point(0, Math.sqrt(2) / 2, Math.sqrt(2) / 2);
+    let result2 = point(0, 0, 1);
+    expect(getBool_tuplesAreEqual(matrix_multiply(half_quarter, p), result1)).toBe(true);
+    expect(getBool_tuplesAreEqual(matrix_multiply(full_quarter, p), result2)).toBe(true);
+});
+
+test("The inverse of an x-rotation rotates in the opposite direction", function() {
+    let p = point(0, 1, 0);
+    let half_quarter = rotation_x_rad(Math.PI / 4);
+    let inv = inverse(half_quarter);
+    let result = point(0, Math.sqrt(2) / 2, -1 * (Math.sqrt(2) / 2));
+    expect(getBool_tuplesAreEqual(matrix_multiply(inv, p), result)).toBe(true);
+});
+
+test("Rotating a point around the y axis", function() {
+    let p = point(0, 0, 1);
+    let half_quarter = rotation_y_rad(Math.PI / 4);
+    let full_quarter = rotation_y_rad(Math.PI / 2);
+    let result1 = point(Math.sqrt(2) / 2, 0, Math.sqrt(2) / 2);
+    let result2 = point(1, 0, 0);
+    expect(getBool_tuplesAreEqual(matrix_multiply(half_quarter, p), result1)).toBe(true);
+    expect(getBool_tuplesAreEqual(matrix_multiply(full_quarter, p), result2)).toBe(true);
+});
+
+test("Rotating a point around the z axis", function() {
+    let p = point(0, 1, 0);
+    let half_quarter = rotation_z_rad(Math.PI / 4);
+    let full_quarter = rotation_z_rad(Math.PI / 2);
+    let result1 = point((-1 * Math.sqrt(2)) / 2, Math.sqrt(2) / 2, 0);
+    let result2 = point(-1, 0, 0);
+    expect(getBool_tuplesAreEqual(matrix_multiply(half_quarter, p), result1)).toBe(true);
+    expect(getBool_tuplesAreEqual(matrix_multiply(full_quarter, p), result2)).toBe(true);
+});
+
