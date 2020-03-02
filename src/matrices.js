@@ -7,6 +7,18 @@ const identity_matrix = [
     [0, 0, 0, 1]
 ];
 
+function matrix_clone(m) {
+    let rows = m.length;
+    let cols = m[0].length;
+    let newMatrix = matrix(rows, cols);
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            newMatrix[y][x] = m[y][x];
+        }
+    }
+    return newMatrix;
+}
+
 function matrix(h, w) {
     return Array.from({ length: h }, _ => Array(w).fill(0));
 }
@@ -145,6 +157,7 @@ module.exports = {
     getM,
     getBool_matricesAreEqual,
     getBool_matrixIsInvertible,
+    matrix_clone,
     matrix_multiply,
     matrix_transpose,
     determinant,
