@@ -94,6 +94,13 @@ function minor(m, rowToDelete, colToDelete) {
     return determinant(submatrix(m, rowToDelete, colToDelete));
 }
 
+function cofactor(m, row, col) {
+    console.log(row + col);
+    console.log((row + col) % 2);
+    let m1 = minor(m, row, col);
+    return (row + col) % 2 === 1 ? -1 * m1 : m1;
+}
+
 module.exports = {
     identity_matrix,
     matrix,
@@ -103,5 +110,6 @@ module.exports = {
     matrix_transpose,
     determinant,
     submatrix,
-    minor
+    minor,
+    cofactor
 };

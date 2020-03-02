@@ -6,7 +6,8 @@ const {
     identity_matrix,
     determinant,
     submatrix,
-    minor
+    minor,
+    cofactor
 } = require("../src/matrices.js");
 const { tuple, getBool_numbersAreEqual, getBool_tuplesAreEqual } = require("../src/tuples.js");
 
@@ -189,4 +190,17 @@ test("Calculating a minor of a 3 x 3 matrix", function() {
     let s = submatrix(m, 1, 0);
     let d = determinant(s);
     expect(getBool_numbersAreEqual(minor(m, 1, 0), d)).toBe(true);
+    expect(getBool_numbersAreEqual(minor(m, 1, 0), 25)).toBe(true);
+});
+
+test("Calculating a cofactor of a 3 x 3 matrix", function() {
+    let m = [
+        [3, 5, 0],
+        [2, -1, -7],
+        [6, -1, 5]
+    ];
+    expect(getBool_numbersAreEqual(minor(m, 0, 0), -12)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 0, 0), -12)).toBe(true);
+    expect(getBool_numbersAreEqual(minor(m, 1, 0), 25)).toBe(true);
+    expect(getBool_numbersAreEqual(cofactor(m, 1, 0), -25)).toBe(true);
 });
