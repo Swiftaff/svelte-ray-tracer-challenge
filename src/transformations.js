@@ -1,4 +1,5 @@
 const { identity_matrix, matrix_clone, matrix_multiply } = require("./matrices.js");
+const { trunc } = require("./tuples.js");
 
 function radians_to_degrees(r) {
     return (r * 180) / Math.PI;
@@ -22,28 +23,28 @@ function scaling(x, y, z) {
 
 function rotation_x_rad(r) {
     let t = matrix_clone(identity_matrix);
-    t[1][1] = Math.cos(r);
-    t[1][2] = -1 * Math.sin(r);
-    t[2][1] = Math.sin(r);
-    t[2][2] = Math.cos(r);
+    t[1][1] = trunc(Math.cos(r));
+    t[1][2] = trunc(-1 * Math.sin(r));
+    t[2][1] = trunc(Math.sin(r));
+    t[2][2] = trunc(Math.cos(r));
     return t;
 }
 
 function rotation_y_rad(r) {
     let t = matrix_clone(identity_matrix);
-    t[0][0] = Math.cos(r);
-    t[0][2] = Math.sin(r);
-    t[2][0] = -1 * Math.sin(r);
-    t[2][2] = Math.cos(r);
+    t[0][0] = trunc(Math.cos(r));
+    t[0][2] = trunc(Math.sin(r));
+    t[2][0] = trunc(-1 * Math.sin(r));
+    t[2][2] = trunc(Math.cos(r));
     return t;
 }
 
 function rotation_z_rad(r) {
     let t = matrix_clone(identity_matrix);
-    t[0][0] = Math.cos(r);
-    t[0][1] = -1 * Math.sin(r);
-    t[1][0] = Math.sin(r);
-    t[1][1] = Math.cos(r);
+    t[0][0] = trunc(Math.cos(r));
+    t[0][1] = trunc(-1 * Math.sin(r));
+    t[1][0] = trunc(Math.sin(r));
+    t[1][1] = trunc(Math.cos(r));
     return t;
 }
 

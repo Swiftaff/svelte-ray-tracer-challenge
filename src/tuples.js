@@ -1,5 +1,9 @@
 const EPSILON = 0.00001;
 
+function trunc(x) {
+    return Number.parseFloat(x.toFixed(7));
+}
+
 function tuple(x, y, z, w) {
     return { x, y, z, w };
 }
@@ -130,11 +134,11 @@ function tuple_subtract(a, b) {
 }
 
 function tuple_multiply(a, s) {
-    return { x: a.x * s, y: a.y * s, z: a.z * s, w: a.w };
+    return { x: trunc(a.x * s), y: trunc(a.y * s), z: trunc(a.z * s), w: a.w };
 }
 
 function tuple_divide(a, s) {
-    return { x: a.x / s, y: a.y / s, z: a.z / s, w: a.w };
+    return { x: trunc(a.x / s), y: trunc(a.y / s), z: trunc(a.z / s), w: a.w };
 }
 
 function vector_negate(a) {
@@ -150,12 +154,12 @@ function vector_negate(a) {
 }
 
 function vector_magnitude(a) {
-    return Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+    return trunc(Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
 function vector_normalize(a) {
     let m = vector_magnitude(a);
-    let tuple = { x: a.x / m, y: a.y / m, z: a.z / m, w: a.w };
+    let tuple = { x: trunc(a.x / m), y: trunc(a.y / m), z: trunc(a.z / m), w: a.w };
     if (tuple.w === 1) {
         console.warn("vector_normalize: can't normalize a point");
         return false;
@@ -169,7 +173,7 @@ function vector_dotProduct(a, b) {
         console.warn("vector_dotProduct: can only dotproduct two vectors");
         return false;
     } else {
-        return a.x * b.x + a.y * b.y + a.z * b.z;
+        return trunc(a.x * b.x + a.y * b.y + a.z * b.z);
     }
 }
 
@@ -178,7 +182,7 @@ function vector_crossProduct(a, b) {
         console.warn("vector_crossProduct: can only crossproduct two vectors");
         return false;
     } else {
-        return vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+        return vector(trunc(a.y * b.z - a.z * b.y), trunc(a.z * b.x - a.x * b.z), trunc(a.x * b.y - a.y * b.x));
     }
 }
 
@@ -192,11 +196,11 @@ function colors_subtract(a, b) {
 
 function colors_multiply(a, b) {
     //hadamard_product
-    return { red: a.red * b.red, green: a.green * b.green, blue: a.blue * b.blue };
+    return { red: trunc(a.red * b.red), green: trunc(a.green * b.green), blue: trunc(a.blue * b.blue) };
 }
 
 function color_scalarMultiply(a, s) {
-    return { red: a.red * s, green: a.green * s, blue: a.blue * s };
+    return { red: trunc(a.red * s), green: trunc(a.green * s), blue: trunc(a.blue * s) };
 }
 
 module.exports = {
@@ -207,6 +211,7 @@ module.exports = {
     projectile,
     environment,
     tick,
+    trunc,
     getBool_isTuple,
     getBool_tupleIsPoint,
     getBool_tupleIsVector,

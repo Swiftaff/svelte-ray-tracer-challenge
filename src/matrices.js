@@ -1,4 +1,4 @@
-const { getBool_isTuple, getBool_numbersAreEqual, getMatrix_fromTuple } = require("../src/tuples.js");
+const { getBool_isTuple, getBool_numbersAreEqual, getMatrix_fromTuple, trunc } = require("../src/tuples.js");
 
 const identity_matrix = [
     [1, 0, 0, 0],
@@ -71,7 +71,7 @@ function matrix_multiply(m1, m2) {
                 for (let xx = 0; xx < m1x; xx++) {
                     thisResult += m1[y][xx] * m2[xx][x];
                 }
-                result[y][x] = thisResult;
+                result[y][x] = trunc(thisResult);
             }
         }
         let finalResult = m2isTuple ? getMatrix_fromTuple(result) : result;
@@ -103,7 +103,7 @@ function determinant(m) {
             det = det + m[0][col] * cofactor(m, 0, col);
         }
     }
-    return det;
+    return trunc(det);
 }
 
 function submatrix(m, rowToDelete, colToDelete) {
@@ -141,7 +141,7 @@ function inverse(m) {
         for (let y = 0; y < my; y++) {
             for (let x = 0; x < mx; x++) {
                 let c = cofactor(m, y, x);
-                result[x][y] = c / determinant(m);
+                result[x][y] = trunc(c / determinant(m));
             }
         }
         return result;
