@@ -31,7 +31,6 @@ function clean(a) {
 function pixel_write(c, x, y, col) {
     if (typeof x === "number" && typeof y === "number" && x >= 0 && y >= 0 && x < c.width && y < c.height) {
         let index = Math.floor(c.width) * Math.floor(y) + Math.floor(x);
-        console.log(x, y);
         if (getBool_isPixelCanvas(c) && getBool_tupleIsColor(col)) {
             let newC = clean(c);
             newC.data[index] = col;
