@@ -5,6 +5,10 @@ function radians_to_degrees(r) {
     return (r * 180) / Math.PI;
 }
 
+function degrees_to_radians(d) {
+    return (d / 180) * Math.PI;
+}
+
 function translation(x, y, z) {
     let t = matrix_clone(identity_matrix);
     t[0][3] = x;
@@ -70,6 +74,7 @@ module.exports = {
     translation,
     scaling,
     radians_to_degrees,
+    degrees_to_radians,
     rotation_x_rad,
     rotation_y_rad,
     rotation_z_rad,
