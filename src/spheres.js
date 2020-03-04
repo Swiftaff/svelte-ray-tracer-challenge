@@ -1,7 +1,7 @@
 const uuidv4 = require("uuid").v4;
 
 const { trunc, point, tuple_subtract, vector_dotProduct } = require("./tuples.js");
-const { intersection, intersections } = require("./intersections.js");
+const { intersection, list_intersections } = require("./intersections.js");
 
 function sphere(suppliedOrigin) {
     let origin = suppliedOrigin || point(0, 0, 0);
@@ -26,9 +26,9 @@ function intersect(s, r) {
         //hits
         let t1 = trunc((-b - Math.sqrt(d)) / (2 * a));
         let t2 = trunc((-b + Math.sqrt(d)) / (2 * a));
-        let i1 = { id: s.id, t: t1 < t2 ? t1 : t2 };
-        let i2 = { id: s.id, t: t1 < t2 ? t2 : t1 };
-        xs = intersections(i1, i2);
+        let i1 = intersection(t1 < t2 ? t1 : t2, s);
+        let i2 = intersection(t1 < t2 ? t2 : t1, s);
+        xs = list_intersections([i1, i2]);
     }
     return xs;
 }
