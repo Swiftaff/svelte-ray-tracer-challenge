@@ -18,9 +18,8 @@ test("A ray intersects a sphere at two points", function() {
     let s = sphere();
     let xs = intersect(s, r);
     expect(getBool_numbersAreEqual(xs.length, 2)).toBe(true);
-    console.log(xs);
-    expect(getBool_numbersAreEqual(xs[0], 4)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[1], 6)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[0].t, 4)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[1].t, 6)).toBe(true);
 });
 
 test("A ray intersects a sphere at a tangent", function() {
@@ -28,8 +27,8 @@ test("A ray intersects a sphere at a tangent", function() {
     let s = sphere();
     let xs = intersect(s, r);
     expect(getBool_numbersAreEqual(xs.length, 2)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[0], 5)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[1], 5)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[0].t, 5)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[1].t, 5)).toBe(true);
 });
 
 test("A ray misses a sphere", function() {
@@ -44,8 +43,8 @@ test("A ray originates inside a sphere", function() {
     let s = sphere();
     let xs = intersect(s, r);
     expect(getBool_numbersAreEqual(xs.length, 2)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[0], -1)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[1], 1)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[0].t, -1)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[1].t, 1)).toBe(true);
 });
 
 test("A sphere is behind a ray", function() {
@@ -53,6 +52,15 @@ test("A sphere is behind a ray", function() {
     let s = sphere();
     let xs = intersect(s, r);
     expect(getBool_numbersAreEqual(xs.length, 2)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[0], -6)).toBe(true);
-    expect(getBool_numbersAreEqual(xs[1], -4)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[0].t, -6)).toBe(true);
+    expect(getBool_numbersAreEqual(xs[1].t, -4)).toBe(true);
+});
+
+test("Intersect sets the object on the intersection", function() {
+    let r = ray(point(0, 0, -5), vector(0, 0, 1));
+    let s = sphere();
+    let xs = intersect(s, r);
+    expect(getBool_numbersAreEqual(xs.length, 2)).toBe(true);
+    expect(xs[0].id).toBe(s.id);
+    expect(xs[1].id).toBe(s.id);
 });
