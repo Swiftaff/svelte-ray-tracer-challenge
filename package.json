@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "program_clock": "node src/clock.js",
-    "program_fireCanon": "node src/fireCanon.js",
+    "program_clock": "node src/program_clock.js",
+    "program_fireCanon": "node src/program_fireCanon.js",
+    "program_sphere_outline": "node src/program_sphere_outline.js",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",

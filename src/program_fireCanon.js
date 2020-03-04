@@ -1,6 +1,6 @@
 const { point, vector, color, projectile, environment, tick, tuple_multiply } = require("./tuples.js");
 
-const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("../src/canvas.js");
+const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("./canvas.js");
 
 const fs = require("fs");
 

@@ -7,12 +7,12 @@ const { transform } = require("../src/rays.js");
 
 function sphere(suppliedOrigin) {
     let origin = suppliedOrigin || point(0, 0, 0);
-    let transform = identity_matrix;
-    return { id: "sphere-" + uuidv4(), origin, transform };
+    let t = identity_matrix;
+    return { id: "sphere-" + uuidv4(), origin, transform: t };
 }
 
-function set_transform(s, transform) {
-    return { ...s, transform };
+function set_transform(s, t) {
+    return { ...s, transform: t };
 }
 
 function discriminant(s, r) {

@@ -1,6 +1,6 @@
 const EPSILON = 0.00001;
 
-const warnings = false;
+const warnings = true;
 
 function trunc(x) {
     return Number.parseFloat(x.toFixed(7));
