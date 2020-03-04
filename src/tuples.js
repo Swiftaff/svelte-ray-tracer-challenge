@@ -1,5 +1,7 @@
 const EPSILON = 0.00001;
 
+const warnings = false;
+
 function trunc(x) {
     return Number.parseFloat(x.toFixed(7));
 }
@@ -116,7 +118,7 @@ function getBool_isEnvironment(env) {
 function tuple_add(a, b) {
     let tuple = { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z, w: a.w + b.w };
     if (tuple.w === 2) {
-        console.warn("tuple_add: can't add two points");
+        if (warnings) console.warn("tuple_add: can't add two points");
         return false;
     } else {
         return tuple;
@@ -126,7 +128,7 @@ function tuple_add(a, b) {
 function tuple_subtract(a, b) {
     let tuple = { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z, w: a.w - b.w };
     if (tuple.w === -1) {
-        console.warn("tuple_subtract: can't subtract a point from a vector");
+        if (warnings) console.warn("tuple_subtract: can't subtract a point from a vector");
         return false;
     } else {
         return tuple;
@@ -144,9 +146,11 @@ function tuple_divide(a, s) {
 function vector_negate(a) {
     let tuple = { x: -a.x, y: -a.y, z: -a.z, w: a.w };
     if (tuple.w === 1) {
-        console.warn(
-            "tuple_negate: can't negate a point (is this correct - example on page 7 'Negating a tuple' shows the 4th value not being 0 or 1??)"
-        );
+        if (warnings) {
+            console.warn(
+                "tuple_negate: can't negate a point (is this correct - example on page 7 'Negating a tuple' shows the 4th value not being 0 or 1??)"
+            );
+        }
         return false;
     } else {
         return tuple;
@@ -161,7 +165,7 @@ function vector_normalize(a) {
     let m = vector_magnitude(a);
     let tuple = { x: trunc(a.x / m), y: trunc(a.y / m), z: trunc(a.z / m), w: a.w };
     if (tuple.w === 1) {
-        console.warn("vector_normalize: can't normalize a point");
+        if (warnings) console.warn("vector_normalize: can't normalize a point");
         return false;
     } else {
         return tuple;
@@ -170,7 +174,7 @@ function vector_normalize(a) {
 
 function vector_dotProduct(a, b) {
     if (a.w === 1 || b.w === 1) {
-        console.warn("vector_dotProduct: can only dotproduct two vectors");
+        if (warnings) console.warn("vector_dotProduct: can only dotproduct two vectors");
         return false;
     } else {
         return trunc(a.x * b.x + a.y * b.y + a.z * b.z);
@@ -179,7 +183,7 @@ function vector_dotProduct(a, b) {
 
 function vector_crossProduct(a, b) {
     if (a.w === 1 || b.w === 1) {
-        console.warn("vector_crossProduct: can only crossproduct two vectors");
+        if (warnings) console.warn("vector_crossProduct: can only crossproduct two vectors");
         return false;
     } else {
         return vector(trunc(a.y * b.z - a.z * b.y), trunc(a.z * b.x - a.x * b.z), trunc(a.x * b.y - a.y * b.x));
@@ -204,6 +208,7 @@ function color_scalarMultiply(a, s) {
 }
 
 module.exports = {
+    warnings,
     tuple,
     point,
     vector,

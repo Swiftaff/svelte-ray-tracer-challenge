@@ -1,4 +1,4 @@
-const { getBool_isTuple, getBool_numbersAreEqual, getMatrix_fromTuple, trunc } = require("../src/tuples.js");
+const { warnings, getBool_isTuple, getBool_numbersAreEqual, getMatrix_fromTuple, trunc } = require("../src/tuples.js");
 
 const identity_matrix = [
     [1, 0, 0, 0],
@@ -27,7 +27,7 @@ function getM(m, y, x) {
     if (m && m[y] && typeof m[y][x] === "number") {
         return m[y][x];
     } else {
-        console.warn("get matrix value: error");
+        if (warnings) console.warn("get matrix value: error");
         return false;
     }
 }
@@ -77,7 +77,7 @@ function matrix_multiply(m1, m2) {
         let finalResult = m2isTuple ? getMatrix_fromTuple(result) : result;
         return finalResult;
     } else {
-        console.warn("can't multiply different sized matrices");
+        if (warnings) console.warn("can't multiply different sized matrices");
         return false;
     }
 }
@@ -146,7 +146,7 @@ function inverse(m) {
         }
         return result;
     } else {
-        console.warn("can't invert this matrix");
+        if (warnings) console.warn("can't invert this matrix");
         return m;
     }
 }

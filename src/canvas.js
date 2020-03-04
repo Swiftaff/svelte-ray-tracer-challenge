@@ -1,4 +1,4 @@
-const { color, getBool_tupleIsColor } = require("../src/tuples.js");
+const { warnings, color, getBool_tupleIsColor } = require("../src/tuples.js");
 
 function pixelCanvas(width, height, optionalStartColor) {
     if (typeof width === "number" && typeof height === "number") {
@@ -8,7 +8,7 @@ function pixelCanvas(width, height, optionalStartColor) {
         data.fill(pixel);
         return { data, width, height };
     } else {
-        console.warn("can't create pixelCanvas");
+        if (warnings) console.warn("can't create pixelCanvas");
         return false;
     }
 }
@@ -37,7 +37,7 @@ function pixel_write(c, x, y, col) {
             return newC;
         }
     }
-    console.warn("pixel_write: error");
+    if (warnings) console.warn("pixel_write: error");
     return c;
 }
 
@@ -59,7 +59,7 @@ function getPixel(c, x, y) {
     if (getBool_isPixelCanvas(c) && index >= 0 && index < c.data.length) {
         return c.data[index];
     }
-    console.warn("pixel_at: error", c, x, y);
+    if (warnings) console.warn("pixel_at: error", c, x, y);
     return false;
 }
 
