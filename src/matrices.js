@@ -32,7 +32,7 @@ function getM(m, y, x) {
     }
 }
 
-function getBool_matricesAreEqual(m1, m2, test) {
+function getBool_matricesAreEqual(m1, m2) {
     let failed = false;
     let rows = m1.length;
     let cols = m1[0].length;

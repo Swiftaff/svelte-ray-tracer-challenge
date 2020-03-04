@@ -2,10 +2,17 @@ const uuidv4 = require("uuid").v4;
 
 const { trunc, point, tuple_subtract, vector_dotProduct } = require("./tuples.js");
 const { intersection, list_intersections } = require("./intersections.js");
+const { identity_matrix, inverse } = require("./matrices.js");
+const { transform } = require("../src/rays.js");
 
 function sphere(suppliedOrigin) {
     let origin = suppliedOrigin || point(0, 0, 0);
-    return { id: "sphere-" + uuidv4(), origin };
+    let transform = identity_matrix;
+    return { id: "sphere-" + uuidv4(), origin, transform };
+}
+
+function set_transform(s, transform) {
+    return { ...s, transform };
 }
 
 function discriminant(s, r) {
@@ -18,8 +25,9 @@ function discriminant(s, r) {
 }
 
 function intersect(s, r) {
+    let r2 = transform(r, inverse(s.transform));
     let xs = [];
-    let { a, b, d } = discriminant(s, r);
+    let { a, b, d } = discriminant(s, r2);
     if (d < 0) {
         //misses
     } else {
@@ -35,5 +43,6 @@ function intersect(s, r) {
 
 module.exports = {
     sphere,
-    intersect
+    intersect,
+    set_transform
 };

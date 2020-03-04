@@ -65,7 +65,7 @@ function shearing(xy, xz, yx, yz, zx, zy) {
 
 function transform_chain(arr, tuple) {
     //applied in order provided in array
-    let newTuple = tuple;
+    let newTuple = { ...tuple };
     arr.map(t => (newTuple = matrix_multiply(t, newTuple)));
     return newTuple;
 }
