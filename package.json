@@ -7,6 +7,7 @@
     "program_clock": "node src/program/program_clock.js",
     "program_fireCanon": "node src/program/program_fireCanon.js",
     "program_sphere_outline": "node src/program/program_sphere_outline.js",
+    "program_sphere_lighting": "node src/program/program_sphere_lighting.js",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
