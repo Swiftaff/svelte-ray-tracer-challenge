@@ -1,10 +1,10 @@
-const { point, color, vector_normalize, tuple_subtract } = require("./tuples.js");
-const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("./canvas.js");
-const { scaling, rotation_z_rad, degrees_to_radians, shearing } = require("./transformations.js");
-const { matrix_multiply } = require("./matrices.js");
-const { hit } = require("./intersections.js");
-const { ray } = require("./rays.js");
-const { sphere, intersect, set_transform } = require("./spheres.js");
+const { point, color, vector_normalize, tuple_subtract } = require("../tuples.js");
+const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("../canvas.js");
+const { scaling, rotation_z_rad, degrees_to_radians, shearing } = require("../transformations.js");
+const { matrix_multiply } = require("../matrices.js");
+const { hit } = require("../intersections.js");
+const { ray } = require("../rays.js");
+const { sphere, intersect, set_transform } = require("../spheres.js");
 const fs = require("fs");
 
 function sphere_outline() {
@@ -43,7 +43,7 @@ function sphere_outline() {
 
     let ppm = pixelCanvas_to_ppm(c);
 
-    fs.writeFile("./src/sphere_outline.ppm", ppm, function(err) {
+    fs.writeFile("./public/images/sphere_outline.ppm", ppm, function(err) {
         // If an error occurred, show it and return
         if (err) return console.error(err);
         console.log("Successfully wrote to the file!");

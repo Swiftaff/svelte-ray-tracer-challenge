@@ -1,6 +1,6 @@
-const { point, vector, color, projectile, environment, tick, tuple_multiply } = require("./tuples.js");
+const { point, vector, color, projectile, environment, tick, tuple_multiply } = require("../tuples.js");
 
-const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("./canvas.js");
+const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("../canvas.js");
 
 const fs = require("fs");
 
@@ -21,19 +21,22 @@ function fireCanon() {
     console.log(" ");
 
     while (proj.position.y > 0 && c) {
-        //console.log("Tick: " + tickCount + ". Projectile Position", proj.position);
+        process.stdout.write(
+            "Tick: " + tickCount + ". Projectile Position (" + proj.position.x + "," + proj.position.y + ")\r"
+        );
         let newC = pixel_write(c, Math.floor(proj.position.x), Math.floor(c.height - proj.position.y), orange);
         c = newC;
-        //tickCount++;
+        tickCount++;
         orange.red = orange.red - 0.01;
         orange.green = orange.green - 0.01;
         proj = tick(env, proj);
     }
     let ppm = pixelCanvas_to_ppm(c);
 
-    fs.writeFile("./src/fireCanonImage.ppm", ppm, function(err) {
+    fs.writeFile("./public/images/fireCanonImage.ppm", ppm, function(err) {
         // If an error occurred, show it and return
         if (err) return console.error(err);
+        process.stdout.write("\r");
         console.log("Successfully wrote to the file!");
     });
 }
