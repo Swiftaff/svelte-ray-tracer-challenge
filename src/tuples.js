@@ -207,6 +207,10 @@ function color_scalarMultiply(a, s) {
     return { red: trunc(a.red * s), green: trunc(a.green * s), blue: trunc(a.blue * s) };
 }
 
+function reflect(v, normal) {
+    return tuple_subtract(v, tuple_multiply(tuple_multiply(normal, 2), vector_dotProduct(v, normal)));
+}
+
 module.exports = {
     warnings,
     tuple,
@@ -239,5 +243,6 @@ module.exports = {
     colors_add,
     colors_subtract,
     colors_multiply,
-    color_scalarMultiply
+    color_scalarMultiply,
+    reflect
 };

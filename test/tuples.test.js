@@ -26,7 +26,8 @@ const {
     colors_add,
     colors_subtract,
     colors_multiply,
-    color_scalarMultiply
+    color_scalarMultiply,
+    reflect
 } = require("../src/tuples.js");
 
 test("A tuple with w=1.0 is a point", function() {
@@ -293,4 +294,20 @@ test("multiplying a color by another color", function() {
     expect(getBool_colorsAreEqual(colors_multiply(color(1, 0.2, 0.4), color(0.9, 1, 0.1)), color(0.9, 0.2, 0.04))).toBe(
         true
     );
+});
+
+test("Reflecting a vector approaching at 45°", function() {
+    let v = vector(1, -1, 0);
+    let n = vector(0, 1, 0);
+    let r = reflect(v, n);
+    let result = vector(1, 1, 0);
+    expect(getBool_tuplesAreEqual(r, result)).toBe(true);
+});
+
+test("Reflecting a vector off a slanted surface", function() {
+    let v = vector(0, -1, 0);
+    let n = vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+    let r = reflect(v, n);
+    let result = vector(1, 0, 0);
+    expect(getBool_tuplesAreEqual(r, result)).toBe(true);
 });
