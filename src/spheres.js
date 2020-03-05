@@ -1,8 +1,8 @@
 const uuidv4 = require("uuid").v4;
 
-const { trunc, point, tuple_subtract, vector_dotProduct } = require("./tuples.js");
+const { trunc, point, vector_normalize, tuple_subtract, vector_dotProduct } = require("./tuples.js");
 const { intersection, list_intersections } = require("./intersections.js");
-const { identity_matrix, inverse } = require("./matrices.js");
+const { identity_matrix, inverse, matrix_multiply, matrix_transpose } = require("./matrices.js");
 const { transform } = require("../src/rays.js");
 
 function sphere(suppliedOrigin) {
@@ -41,8 +41,18 @@ function intersect(s, r) {
     return xs;
 }
 
+function normal_at(s, world_point) {
+    let object_point = matrix_multiply(inverse(s.transform), world_point);
+    let object_normal = tuple_subtract(object_point, s.origin);
+    let world_normal = matrix_multiply(matrix_transpose(inverse(s.transform)), object_normal);
+    world_normal.w = 0;
+    let v = vector_normalize(world_normal);
+    return v;
+}
+
 module.exports = {
     sphere,
     intersect,
-    set_transform
+    set_transform,
+    normal_at
 };

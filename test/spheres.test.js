@@ -1,8 +1,14 @@
-const { point, vector, getBool_numbersAreEqual } = require("../src/tuples.js");
+const {
+    point,
+    vector,
+    vector_normalize,
+    getBool_numbersAreEqual,
+    getBool_tuplesAreEqual
+} = require("../src/tuples.js");
 const { ray } = require("../src/rays.js");
-const { sphere, intersect, set_transform } = require("../src/spheres.js");
-const { getBool_matricesAreEqual, identity_matrix } = require("../src/matrices.js");
-const { translation, scaling } = require("../src/transformations.js");
+const { sphere, intersect, set_transform, normal_at } = require("../src/spheres.js");
+const { getBool_matricesAreEqual, identity_matrix, matrix_multiply } = require("../src/matrices.js");
+const { translation, scaling, rotation_z_rad } = require("../src/transformations.js");
 
 test("Spheres have unique IDs", function() {
     let s1 = sphere();
@@ -97,4 +103,57 @@ test("Intersecting a translated sphere with a ray", function() {
     s = set_transform(s, t);
     let xs = intersect(s, r);
     expect(getBool_numbersAreEqual(xs.length, 0)).toBe(true);
+});
+
+//normal_at
+test("The normal on a sphere at a point on the x axis", function() {
+    let s = sphere();
+    let n = normal_at(s, point(1, 0, 0));
+    let result = vector(1, 0, 0);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("The normal on a sphere at a point on the y axis", function() {
+    let s = sphere();
+    let n = normal_at(s, point(0, 1, 0));
+    let result = vector(0, 1, 0);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("The normal on a sphere at a point on the z axis", function() {
+    let s = sphere();
+    let n = normal_at(s, point(0, 0, 1));
+    let result = vector(0, 0, 1);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("The normal on a sphere at a nonaxial point", function() {
+    let s = sphere();
+    let n = normal_at(s, point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+    let result = vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("The normal is a normalized vector", function() {
+    let s = sphere();
+    let n = normal_at(s, point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+    let result = vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3);
+    expect(getBool_tuplesAreEqual(result, vector_normalize(result))).toBe(true);
+});
+
+test("Computing the normal on a translated sphere", function() {
+    let s = sphere();
+    s = set_transform(s, translation(0, 1, 0));
+    let n = normal_at(s, point(0, 1.70711, -0.70711));
+    let result = vector(0, 0.70711, -0.70711);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("Computing the normal on a transformed sphere", function() {
+    let s = sphere();
+    let m = matrix_multiply(scaling(1, 0.5, 1), rotation_z_rad(Math.PI / 5));
+    s = set_transform(s, m);
+    let n = normal_at(s, point(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2));
+    let result = vector(0, 0.97014, -0.24254);
+    expect(getBool_tuplesAreEqual(n, result)).toBe(true);
 });
