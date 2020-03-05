@@ -4,15 +4,23 @@ const { trunc, point, vector_normalize, tuple_subtract, vector_dotProduct } = re
 const { intersection, list_intersections } = require("./intersections.js");
 const { identity_matrix, inverse, matrix_multiply, matrix_transpose } = require("./matrices.js");
 const { transform } = require("../src/rays.js");
+const { material } = require("../src/materials.js");
 
 function sphere(suppliedOrigin) {
-    let origin = suppliedOrigin || point(0, 0, 0);
-    let t = identity_matrix;
-    return { id: "sphere-" + uuidv4(), origin, transform: t };
+    return {
+        id: "sphere-" + uuidv4(),
+        origin: suppliedOrigin || point(0, 0, 0),
+        transform: identity_matrix,
+        material: material()
+    };
 }
 
 function set_transform(s, t) {
     return { ...s, transform: t };
+}
+
+function set_material(s, m) {
+    return { ...s, material: m };
 }
 
 function discriminant(s, r) {
@@ -54,5 +62,6 @@ module.exports = {
     sphere,
     intersect,
     set_transform,
+    set_material,
     normal_at
 };

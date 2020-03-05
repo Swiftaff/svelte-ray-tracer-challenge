@@ -6,9 +6,10 @@ const {
     getBool_tuplesAreEqual
 } = require("../src/tuples.js");
 const { ray } = require("../src/rays.js");
-const { sphere, intersect, set_transform, normal_at } = require("../src/spheres.js");
+const { sphere, intersect, set_transform, normal_at, set_material } = require("../src/spheres.js");
 const { getBool_matricesAreEqual, identity_matrix, matrix_multiply } = require("../src/matrices.js");
 const { translation, scaling, rotation_z_rad } = require("../src/transformations.js");
+const { material } = require("../src/materials.js");
 
 test("Spheres have unique IDs", function() {
     let s1 = sphere();
@@ -156,4 +157,18 @@ test("Computing the normal on a transformed sphere", function() {
     let n = normal_at(s, point(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2));
     let result = vector(0, 0.97014, -0.24254);
     expect(getBool_tuplesAreEqual(n, result)).toBe(true);
+});
+
+test("A sphere has a default material", function() {
+    let s = sphere();
+    let m = s.material;
+    expect(m).toMatchObject(material());
+});
+
+test("A sphere may be assigned a material", function() {
+    let s = sphere();
+    let m = material();
+    m.ambient = 1;
+    s = set_material(s, m);
+    expect(s.material).toMatchObject(m);
 });
