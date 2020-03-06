@@ -127,7 +127,7 @@ test("adding two tuples: vector + vector = vector", function() {
     expect(getBool_tuplesAreEqual(tuple_add(vector(3, -2, 5), vector(-2, 3, 1)), vector(1, 1, 6))).toBe(true);
 });
 
-test("adding two tuples: vector + point = vector", function() {
+test("adding two tuples: vector + point = point", function() {
     expect(getBool_tuplesAreEqual(tuple_add(vector(3, -2, 5), point(-2, 3, 1)), point(1, 1, 6))).toBe(true);
 });
 
