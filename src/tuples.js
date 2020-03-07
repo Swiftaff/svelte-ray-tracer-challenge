@@ -87,7 +87,6 @@ function getBool_colorsAreEqual(a, b) {
         getBool_numbersAreEqual(a.blue, b.blue)
     );
 }
-``;
 
 function getBool_numbersAreEqual(a, b) {
     return Math.abs(a - b) < EPSILON;

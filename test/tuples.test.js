@@ -40,7 +40,7 @@ test("A tuple with w=1.0 is a point", function() {
     expect(getBool_tupleIsVector(a)).toBe(false);
 });
 
-test("A tuple with w=0 is a point", function() {
+test("A tuple with w=0 is a vector", function() {
     let a = tuple(4.3, -4.2, 3.1, 0.0);
     expect(a.x).toBe(4.3);
     expect(a.y).toBe(-4.2);
@@ -159,7 +159,7 @@ test("negate a vector = -vector", function() {
     expect(getBool_tuplesAreEqual(vector_negate(vector(1, -2, 3)), vector(-1, 2, -3))).toBe(true);
 });
 
-test("negate a vector = false (and console error)", function() {
+test("negate a point = false (and console error)", function() {
     expect(vector_negate(point(1, -2, 3))).toBe(false);
 });
 
