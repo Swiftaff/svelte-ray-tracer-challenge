@@ -1,6 +1,12 @@
 const { point, color } = require("../tuples.js");
 const { pixelCanvas, pixel_write, pixelCanvas_to_ppm } = require("../canvas.js");
-const { transform_chain, translation, rotation_z_rad, scaling, degrees_to_radians } = require("../transformations.js");
+const {
+    transform_tuple_with_chain,
+    translation,
+    rotation_z_rad,
+    scaling,
+    degrees_to_radians
+} = require("../transformations.js");
 const fs = require("fs");
 
 function clock() {
@@ -15,7 +21,7 @@ function clock() {
 
     for (let hour = 0; hour < 12; hour++) {
         process.stdout.write("hour " + hour + "\r");
-        let newPoint = transform_chain([rotation_z_rad(one_hour_angle * hour), size, recentre], origin);
+        let newPoint = transform_tuple_with_chain([rotation_z_rad(one_hour_angle * hour), size, recentre], origin);
         let newC = pixel_write(c, newPoint.x, newPoint.y, orange);
         c = newC;
     }

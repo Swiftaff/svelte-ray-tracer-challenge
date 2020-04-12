@@ -21,15 +21,15 @@ function sortByT(a, b) {
 }
 
 function hit(xs) {
-    let theHit = false;
+    let the_hit = false;
     for (let index = 0; index < xs.length; index++) {
-        if (theHit === false && xs[index].t >= 0) theHit = xs[index];
+        if (the_hit === false && xs[index].t >= 0) the_hit = xs[index];
     }
-    return theHit;
+    return the_hit;
 }
 
 module.exports = {
     intersection,
     list_intersections,
-    hit
+    hit,
 };

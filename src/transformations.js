@@ -63,10 +63,10 @@ function shearing(xy, xz, yx, yz, zx, zy) {
     return t;
 }
 
-function transform_chain(arr, tuple) {
+function transform_tuple_with_chain(arr, tuple) {
     //applied in order provided in array
     let newTuple = { ...tuple };
-    arr.map(t => (newTuple = { ...matrix_multiply(t, newTuple) }));
+    arr.map((t) => (newTuple = { ...matrix_multiply(t, newTuple) }));
     return newTuple;
 }
 
@@ -79,5 +79,5 @@ module.exports = {
     rotation_y_rad,
     rotation_z_rad,
     shearing,
-    transform_chain
+    transform_tuple_with_chain,
 };

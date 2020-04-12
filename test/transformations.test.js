@@ -7,7 +7,7 @@ const {
     rotation_y_rad,
     rotation_z_rad,
     shearing,
-    transform_chain
+    transform_tuple_with_chain
 } = require("../src/transformations.js");
 
 //translation
@@ -167,6 +167,6 @@ test("Chained transformations must be applied in reverse order", function() {
     let a = rotation_x_rad(Math.PI / 2);
     let b = scaling(5, 5, 5);
     let c = translation(10, 5, 7);
-    let p2 = transform_chain([a, b, c], p);
+    let p2 = transform_tuple_with_chain([a, b, c], p);
     expect(getBool_tuplesAreEqual(p2, point(15, 0, 7))).toBe(true);
 });
